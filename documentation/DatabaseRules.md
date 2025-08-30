@@ -16,6 +16,8 @@ A trigger is required to ensure that the HumanReadableID field is maintained up-
 - Append a hyphen character
 - Append the primary key value, left-padded with 0's, to 8 characters (beyond the hyphen)
   - If the number of characters in the primary key value is greater than 8, append the entirety of the value
+
+A trigger is required to update the `ModifiedBy`, `ModifiedDate`, and `ModifiedIP` fields for each table on new inserts.  These values will default to the values in `CreatedBy`, `CreatedDate`, and `CreatedIP` fields.
  
 **Examples**
 
@@ -41,10 +43,10 @@ All tables will have the following structure:
 | CreatedIP | VARCHAR(45) | No | Default to '::0' |
 | ModifiedBy | INT | Yes | Trigger will populate on insert to `CreatedBy` value; FK to `CoreIdentity` table on new insert |
 | ModifiedDate | Timestamp | Yes | Trigger will populate on insert to `CreatedDate` value on new insert |
-| ModifiedIP | INT | Yes | Trigger will populate on insert to `CreatedIP` value on new insert |
+| ModifiedIP | VARCHAR(45) | Yes | Trigger will populate on insert to `CreatedIP` value on new insert |
 | DeletedBy | INT | Yes | Does not get populated on insert or modify unless `RecordStatusID` becomes the value of `Deleted`; FK to `CoreIdentity` table |
 | DeletedDate | Timestamp | Yes | Does not get populated on insert or modify unless `RecordStatusID` becomes the value of `Deleted` |
-| DeletedIP | INT | Yes | Does not get populated on insert or modify unless `RecordStatusID` becomes the value of `Deleted` |
+| DeletedIP | VARCHAR(45) | Yes | Does not get populated on insert or modify unless `RecordStatusID` becomes the value of `Deleted` |
 
 
 ## Seed Data Defaults
