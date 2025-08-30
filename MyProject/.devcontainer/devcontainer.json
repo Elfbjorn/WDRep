@@ -1,0 +1,17 @@
+{
+  "name": "WDRep Codespace",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csdevkit",
+        "angular.ng-template"
+      ]
+    }
+  },
+  "forwardPorts": [4200, 5000, 5432],
+  "postCreateCommand": "npm install --prefix ./client && dotnet restore ./server && docker-compose up -d",
+  "postStartCommand": "docker-compose up -d"
+}
