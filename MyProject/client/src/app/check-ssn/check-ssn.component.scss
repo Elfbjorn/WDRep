@@ -1,0 +1,25 @@
+.check-ssn-container {
+  max-width: 500px;
+  margin: 40px auto;
+}
+mat-card {
+  padding: 24px;
+}
+.full-width {
+  width: 100%;
+}
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+.result-table {
+  margin-top: 24px;
+  width: 100%;
+}
+.continue-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}

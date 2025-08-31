@@ -13,4 +13,4 @@ RUN dotnet publish server.csproj -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "server.dll"]
+CMD ["dotnet", "server.dll"]

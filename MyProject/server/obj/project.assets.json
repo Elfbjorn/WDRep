@@ -607,7 +607,7 @@
     ]
   },
   "packageFolders": {
-    "/home/codespace/.nuget/packages/": {}
+    "/home/vscode/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
@@ -615,11 +615,11 @@
       "projectUniqueName": "/workspaces/WDRep/MyProject/server/server.csproj",
       "projectName": "server",
       "projectPath": "/workspaces/WDRep/MyProject/server/server.csproj",
-      "packagesPath": "/home/codespace/.nuget/packages/",
+      "packagesPath": "/home/vscode/.nuget/packages/",
       "outputPath": "/workspaces/WDRep/MyProject/server/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/codespace/.nuget/NuGet/NuGet.Config"
+        "/home/vscode/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
