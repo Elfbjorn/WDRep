@@ -1,138 +1,154 @@
 -- Foreign Key Constraints
 -- Ambiguities: OrganizationTypeId (no OrganizationTypes table), PointOfContactId (no PointsOfContact table)
 
-ALTER TABLE OrganizationsHistory ADD CONSTRAINT fk_OrganizationsHistory_OrganizationId FOREIGN KEY (OrganizationId) REFERENCES Organizations(OrganizationId);
-ALTER TABLE OrganizationsHistory ADD CONSTRAINT fk_OrganizationsHistory_OrganizationTypeId FOREIGN KEY (OrganizationTypeId) REFERENCES OrganizationTypes(OrganizationTypeId);
-ALTER TABLE OrganizationsHistory ADD CONSTRAINT fk_OrganizationsHistory_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
-ALTER TABLE OrganizationsHistory ADD CONSTRAINT fk_OrganizationsHistory_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE OrganizationsHistory ADD CONSTRAINT fk_OrganizationsHistory_ModifiedBy FOREIGN KEY (ModifiedBy) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE OrganizationsHistory ADD CONSTRAINT fk_OrganizationsHistory_DeletedBy FOREIGN KEY (DeletedBy) REFERENCES CoreIdentity(CoreIdentityId);
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_organizationid;
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_organizationid;
+ALTER TABLE organizationshistory ADD CONSTRAINT fk_organizationshistory_organizationid FOREIGN KEY (organizationid) REFERENCES organizations(organizationid);
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_organizationtypeid;
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_organizationtypeid;
+ALTER TABLE organizationshistory ADD CONSTRAINT fk_organizationshistory_organizationtypeid FOREIGN KEY (organizationtypeid) REFERENCES organizationtypes(organizationtypeid);
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_recordstatusid;
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_recordstatusid;
+ALTER TABLE organizationshistory ADD CONSTRAINT fk_organizationshistory_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_createdby;
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_createdby;
+ALTER TABLE organizationshistory ADD CONSTRAINT fk_organizationshistory_createdby FOREIGN KEY (createdby) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_modifiedby;
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_modifiedby;
+ALTER TABLE organizationshistory ADD CONSTRAINT fk_organizationshistory_modifiedby FOREIGN KEY (modifiedby) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_deletedby;
+ALTER TABLE organizationshistory DROP CONSTRAINT IF EXISTS fk_organizationshistory_deletedby;
+ALTER TABLE organizationshistory ADD CONSTRAINT fk_organizationshistory_deletedby FOREIGN KEY (deletedby) REFERENCES coreidentity(coreidentityid);
 
-ALTER TABLE CoreIdentityInvestigationRequests ADD CONSTRAINT fk_CIIR_InvestigationRequestId FOREIGN KEY (InvestigationRequestId) REFERENCES InvestigationRequest(InvestigationRequestId);
-ALTER TABLE CoreIdentityInvestigationRequests ADD CONSTRAINT fk_CIIR_CoreIdentityId FOREIGN KEY (CoreIdentityId) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE CoreIdentityInvestigationRequests ADD CONSTRAINT fk_CIIR_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE coreidentityinvestigationrequests DROP CONSTRAINT IF EXISTS fk_ciir_investigationrequestid;
+ALTER TABLE coreidentityinvestigationrequests DROP CONSTRAINT IF EXISTS fk_ciir_investigationrequestid;
+ALTER TABLE coreidentityinvestigationrequests ADD CONSTRAINT fk_ciir_investigationrequestid FOREIGN KEY (investigationrequestid) REFERENCES investigationrequest(investigationrequestid);
+ALTER TABLE coreidentityinvestigationrequests DROP CONSTRAINT IF EXISTS fk_ciir_coreidentityid;
+ALTER TABLE coreidentityinvestigationrequests ADD CONSTRAINT fk_ciir_coreidentityid FOREIGN KEY (coreidentityid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE coreidentityinvestigationrequests DROP CONSTRAINT IF EXISTS fk_ciir_recordstatusid;
+ALTER TABLE coreidentityinvestigationrequests ADD CONSTRAINT fk_ciir_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE CoreIdentityAdjudications ADD CONSTRAINT fk_CIA_AdjudicationId FOREIGN KEY (AdjudicationId) REFERENCES Adjudications(AdjudicationID);
-ALTER TABLE CoreIdentityAdjudications ADD CONSTRAINT fk_CIA_CoreIdentityId FOREIGN KEY (CoreIdentityId) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE CoreIdentityAdjudications ADD CONSTRAINT fk_CIA_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE coreidentityadjudications ADD CONSTRAINT fk_cia_adjudicationid FOREIGN KEY (adjudicationid) REFERENCES adjudications(adjudicationid);
+ALTER TABLE coreidentityadjudications ADD CONSTRAINT fk_cia_coreidentityid FOREIGN KEY (coreidentityid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE coreidentityadjudications ADD CONSTRAINT fk_cia_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE EmergencyContacts ADD CONSTRAINT fk_EC_CoreIdentityId FOREIGN KEY (CoreIdentityId) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE EmergencyContacts ADD CONSTRAINT fk_EC_RelationshipTypeId FOREIGN KEY (RelationshipTypeId) REFERENCES RelationshipTypes(RelationshipTypeId);
-ALTER TABLE EmergencyContacts ADD CONSTRAINT fk_EC_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE emergencycontacts ADD CONSTRAINT fk_ec_coreidentityid FOREIGN KEY (coreidentityid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE emergencycontacts ADD CONSTRAINT fk_ec_relationshiptypeid FOREIGN KEY (relationshiptypeid) REFERENCES relationshiptypes(relationshiptypeid);
+ALTER TABLE emergencycontacts ADD CONSTRAINT fk_ec_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Phones ADD CONSTRAINT fk_Phones_CountryCodeId FOREIGN KEY (CountryCodeId) REFERENCES CountryCodes(CountryCodeId);
-ALTER TABLE Phones ADD CONSTRAINT fk_Phones_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE phones ADD CONSTRAINT fk_phones_countrycodeid FOREIGN KEY (countrycodeid) REFERENCES countrycodes(countrycodeid);
+ALTER TABLE phones ADD CONSTRAINT fk_phones_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE CoreIdentityPhones ADD CONSTRAINT fk_CIP_CoreIdentityId FOREIGN KEY (CoreIdentityId) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE CoreIdentityPhones ADD CONSTRAINT fk_CIP_PhoneId FOREIGN KEY (PhoneId) REFERENCES Phones(PhoneId);
-ALTER TABLE CoreIdentityPhones ADD CONSTRAINT fk_CIP_ContactTypeId FOREIGN KEY (ContactTypeId) REFERENCES ContactTypes(ContactTypeId);
-ALTER TABLE CoreIdentityPhones ADD CONSTRAINT fk_CIP_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE coreidentityphones ADD CONSTRAINT fk_cip_coreidentityid FOREIGN KEY (coreidentityid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE coreidentityphones ADD CONSTRAINT fk_cip_phoneid FOREIGN KEY (phoneid) REFERENCES phones(phoneid);
+ALTER TABLE coreidentityphones ADD CONSTRAINT fk_cip_contacttypeid FOREIGN KEY (contacttypeid) REFERENCES contacttypes(contacttypeid);
+ALTER TABLE coreidentityphones ADD CONSTRAINT fk_cip_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Emails ADD CONSTRAINT fk_Emails_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE emails ADD CONSTRAINT fk_emails_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE CoreIdentityEmails ADD CONSTRAINT fk_CIE_CoreIdentityId FOREIGN KEY (CoreIdentityId) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE CoreIdentityEmails ADD CONSTRAINT fk_CIE_EmailId FOREIGN KEY (EmailId) REFERENCES Emails(EmailId);
-ALTER TABLE CoreIdentityEmails ADD CONSTRAINT fk_CIE_ContactTypeId FOREIGN KEY (ContactTypeId) REFERENCES ContactTypes(ContactTypeId);
-ALTER TABLE CoreIdentityEmails ADD CONSTRAINT fk_CIE_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE coreidentityemails ADD CONSTRAINT fk_cie_coreidentityid FOREIGN KEY (coreidentityid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE coreidentityemails ADD CONSTRAINT fk_cie_emailid FOREIGN KEY (emailid) REFERENCES emails(emailid);
+ALTER TABLE coreidentityemails ADD CONSTRAINT fk_cie_contacttypeid FOREIGN KEY (contacttypeid) REFERENCES contacttypes(contacttypeid);
+ALTER TABLE coreidentityemails ADD CONSTRAINT fk_cie_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE PostalAddresses ADD CONSTRAINT fk_PA_CountryId FOREIGN KEY (CountryId) REFERENCES Countries(CountryId);
-ALTER TABLE PostalAddresses ADD CONSTRAINT fk_PA_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE postaladdresses ADD CONSTRAINT fk_pa_countryid FOREIGN KEY (countryid) REFERENCES countries(countryid);
+ALTER TABLE postaladdresses ADD CONSTRAINT fk_pa_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE CoreIdentityPostalAddresses ADD CONSTRAINT fk_CIPA_CoreIdentityId FOREIGN KEY (CoreIdentityId) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE CoreIdentityPostalAddresses ADD CONSTRAINT fk_CIPA_PostalAddressId FOREIGN KEY (PostalAddressId) REFERENCES PostalAddresses(PostalAddressId);
-ALTER TABLE CoreIdentityPostalAddresses ADD CONSTRAINT fk_CIPA_ContactTypeId FOREIGN KEY (ContactTypeId) REFERENCES ContactTypes(ContactTypeId);
-ALTER TABLE CoreIdentityPostalAddresses ADD CONSTRAINT fk_CIPA_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE coreidentitypostaladdresses ADD CONSTRAINT fk_cipa_coreidentityid FOREIGN KEY (coreidentityid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE coreidentitypostaladdresses ADD CONSTRAINT fk_cipa_postaladdressid FOREIGN KEY (postaladdressid) REFERENCES postaladdresses(postaladdressid);
+ALTER TABLE coreidentitypostaladdresses ADD CONSTRAINT fk_cipa_contacttypeid FOREIGN KEY (contacttypeid) REFERENCES contacttypes(contacttypeid);
+ALTER TABLE coreidentitypostaladdresses ADD CONSTRAINT fk_cipa_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE SocialMedia ADD CONSTRAINT fk_SM_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE socialmedia ADD CONSTRAINT fk_sm_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE CoreIdentitySocialMedia ADD CONSTRAINT fk_CISM_CoreIdentityId FOREIGN KEY (CoreIdentityId) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE CoreIdentitySocialMedia ADD CONSTRAINT fk_CISM_SocialMediaId FOREIGN KEY (SocialMediaId) REFERENCES SocialMedia(SocialMediaId);
-ALTER TABLE CoreIdentitySocialMedia ADD CONSTRAINT fk_CISM_ContactTypeId FOREIGN KEY (ContactTypeId) REFERENCES ContactTypes(ContactTypeId);
-ALTER TABLE CoreIdentitySocialMedia ADD CONSTRAINT fk_CISM_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE coreidentitysocialmedia ADD CONSTRAINT fk_cism_coreidentityid FOREIGN KEY (coreidentityid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE coreidentitysocialmedia ADD CONSTRAINT fk_cism_socialmediaid FOREIGN KEY (socialmediaid) REFERENCES socialmedia(socialmediaid);
+ALTER TABLE coreidentitysocialmedia ADD CONSTRAINT fk_cism_contacttypeid FOREIGN KEY (contacttypeid) REFERENCES contacttypes(contacttypeid);
+ALTER TABLE coreidentitysocialmedia ADD CONSTRAINT fk_cism_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Contracts ADD CONSTRAINT fk_Contracts_OrganizationId FOREIGN KEY (OrganizationId) REFERENCES Organizations(OrganizationId);
-ALTER TABLE Contracts ADD CONSTRAINT fk_Contracts_VendorId FOREIGN KEY (VendorId) REFERENCES Vendors(VendorId);
-ALTER TABLE Contracts ADD CONSTRAINT fk_Contracts_ContractTypeId FOREIGN KEY (ContractTypeId) REFERENCES ContractTypes(ContractTypeId);
-ALTER TABLE Contracts ADD CONSTRAINT fk_Contracts_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE contracts ADD CONSTRAINT fk_contracts_organizationid FOREIGN KEY (organizationid) REFERENCES organizations(organizationid);
+ALTER TABLE contracts ADD CONSTRAINT fk_contracts_vendorid FOREIGN KEY (vendorid) REFERENCES vendors(vendorid);
+ALTER TABLE contracts ADD CONSTRAINT fk_contracts_contracttypeid FOREIGN KEY (contracttypeid) REFERENCES contracttypes(contracttypeid);
+ALTER TABLE contracts ADD CONSTRAINT fk_contracts_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Assignments ADD CONSTRAINT fk_Assignments_WorkerId FOREIGN KEY (WorkerId) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE Assignments ADD CONSTRAINT fk_Assignments_OrganizationId FOREIGN KEY (OrganizationId) REFERENCES Organizations(OrganizationId);
-ALTER TABLE Assignments ADD CONSTRAINT fk_Assignments_ContractId FOREIGN KEY (ContractId) REFERENCES Contracts(ContractId);
-ALTER TABLE Assignments ADD CONSTRAINT fk_Assignments_AssignmentTypeId FOREIGN KEY (AssignmentTypeId) REFERENCES AssignmentTypes(AssignmentTypeID);
+ALTER TABLE assignments ADD CONSTRAINT fk_assignments_workerid FOREIGN KEY (workerid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE assignments ADD CONSTRAINT fk_assignments_organizationid FOREIGN KEY (organizationid) REFERENCES organizations(organizationid);
+ALTER TABLE assignments ADD CONSTRAINT fk_assignments_contractid FOREIGN KEY (contractid) REFERENCES contracts(contractid);
+ALTER TABLE assignments ADD CONSTRAINT fk_assignments_assignmenttypeid FOREIGN KEY (assignmenttypeid) REFERENCES assignmenttypes(assignmenttypeid);
 -- PointsOfContact FKs
-ALTER TABLE PointsOfContact ADD CONSTRAINT fk_PointsOfContact_PrefixId FOREIGN KEY (PrefixId) REFERENCES PrefixSuffix(PrefixSuffixId);
-ALTER TABLE PointsOfContact ADD CONSTRAINT fk_PointsOfContact_SuffixId FOREIGN KEY (SuffixId) REFERENCES PrefixSuffix(PrefixSuffixId);
-ALTER TABLE PointsOfContact ADD CONSTRAINT fk_PointsOfContact_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
-ALTER TABLE PointsOfContact ADD CONSTRAINT fk_PointsOfContact_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE PointsOfContact ADD CONSTRAINT fk_PointsOfContact_ModifiedBy FOREIGN KEY (ModifiedBy) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE PointsOfContact ADD CONSTRAINT fk_PointsOfContact_DeletedBy FOREIGN KEY (DeletedBy) REFERENCES CoreIdentity(CoreIdentityId);
+ALTER TABLE pointsofcontact ADD CONSTRAINT fk_pointsofcontact_prefixid FOREIGN KEY (prefixid) REFERENCES prefixsuffix(prefixsuffixid);
+ALTER TABLE pointsofcontact ADD CONSTRAINT fk_pointsofcontact_suffixid FOREIGN KEY (suffixid) REFERENCES prefixsuffix(prefixsuffixid);
+ALTER TABLE pointsofcontact ADD CONSTRAINT fk_pointsofcontact_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
+ALTER TABLE pointsofcontact ADD CONSTRAINT fk_pointsofcontact_createdby FOREIGN KEY (createdby) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE pointsofcontact ADD CONSTRAINT fk_pointsofcontact_modifiedby FOREIGN KEY (modifiedby) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE pointsofcontact ADD CONSTRAINT fk_pointsofcontact_deletedby FOREIGN KEY (deletedby) REFERENCES coreidentity(coreidentityid);
 
 -- Junction tables for PointsOfContact
-ALTER TABLE PointsOfContactPhones ADD CONSTRAINT fk_PointsOfContactPhones_PointOfContactId FOREIGN KEY (PointOfContactId) REFERENCES PointsOfContact(PointOfContactId);
-ALTER TABLE PointsOfContactPhones ADD CONSTRAINT fk_PointsOfContactPhones_PhoneId FOREIGN KEY (PhoneId) REFERENCES Phones(PhoneId);
-ALTER TABLE PointsOfContactPhones ADD CONSTRAINT fk_PointsOfContactPhones_ContactTypeId FOREIGN KEY (ContactTypeId) REFERENCES ContactTypes(ContactTypeId);
-ALTER TABLE PointsOfContactPhones ADD CONSTRAINT fk_PointsOfContactPhones_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE pointsofcontactphones ADD CONSTRAINT fk_pointsofcontactphones_pointofcontactid FOREIGN KEY (pointofcontactid) REFERENCES pointsofcontact(pointofcontactid);
+ALTER TABLE pointsofcontactphones ADD CONSTRAINT fk_pointsofcontactphones_phoneid FOREIGN KEY (phoneid) REFERENCES phones(phoneid);
+ALTER TABLE pointsofcontactphones ADD CONSTRAINT fk_pointsofcontactphones_contacttypeid FOREIGN KEY (contacttypeid) REFERENCES contacttypes(contacttypeid);
+ALTER TABLE pointsofcontactphones ADD CONSTRAINT fk_pointsofcontactphones_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE PointsOfContactEmails ADD CONSTRAINT fk_PointsOfContactEmails_PointOfContactId FOREIGN KEY (PointOfContactId) REFERENCES PointsOfContact(PointOfContactId);
-ALTER TABLE PointsOfContactEmails ADD CONSTRAINT fk_PointsOfContactEmails_EmailId FOREIGN KEY (EmailId) REFERENCES Emails(EmailId);
-ALTER TABLE PointsOfContactEmails ADD CONSTRAINT fk_PointsOfContactEmails_ContactTypeId FOREIGN KEY (ContactTypeId) REFERENCES ContactTypes(ContactTypeId);
-ALTER TABLE PointsOfContactEmails ADD CONSTRAINT fk_PointsOfContactEmails_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE pointsofcontactemails ADD CONSTRAINT fk_pointsofcontactemails_pointofcontactid FOREIGN KEY (pointofcontactid) REFERENCES pointsofcontact(pointofcontactid);
+ALTER TABLE pointsofcontactemails ADD CONSTRAINT fk_pointsofcontactemails_emailid FOREIGN KEY (emailid) REFERENCES emails(emailid);
+ALTER TABLE pointsofcontactemails ADD CONSTRAINT fk_pointsofcontactemails_contacttypeid FOREIGN KEY (contacttypeid) REFERENCES contacttypes(contacttypeid);
+ALTER TABLE pointsofcontactemails ADD CONSTRAINT fk_pointsofcontactemails_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Assignments ADD CONSTRAINT fk_Assignments_AssignmentStatusId FOREIGN KEY (AssignmentStatusId) REFERENCES AssignmentStatuses(AssignmentStatusID);
-ALTER TABLE Assignments ADD CONSTRAINT fk_Assignments_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE assignments ADD CONSTRAINT fk_assignments_assignmentstatusid FOREIGN KEY (assignmentstatusid) REFERENCES assignmentstatuses(assignmentstatusid);
+ALTER TABLE assignments ADD CONSTRAINT fk_assignments_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE TablePrefixes ADD CONSTRAINT fk_TablePrefixes_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE tableprefixes ADD CONSTRAINT fk_tableprefixes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Sexes ADD CONSTRAINT fk_Sexes_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE sexes ADD CONSTRAINT fk_sexes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE geography ADD CONSTRAINT fk_geography_GeographyTypeId FOREIGN KEY (GeographyTypeId) REFERENCES GeographyTypes(GeographyTypeId);
-ALTER TABLE geography ADD CONSTRAINT fk_geography_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE geography ADD CONSTRAINT fk_geography_geographytypeid FOREIGN KEY (geographytypeid) REFERENCES geographytypes(geographytypeid);
+ALTER TABLE geography ADD CONSTRAINT fk_geography_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE GeographyTypes ADD CONSTRAINT fk_GeographyTypes_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE geographytypes ADD CONSTRAINT fk_geographytypes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE PrefixSuffix ADD CONSTRAINT fk_PrefixSuffix_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE prefixsuffix ADD CONSTRAINT fk_prefixsuffix_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE CoreIdentity ADD CONSTRAINT fk_CoreIdentity_PrefixId FOREIGN KEY (PrefixId) REFERENCES PrefixSuffix(PrefixSuffixId);
-ALTER TABLE CoreIdentity ADD CONSTRAINT fk_CoreIdentity_SuffixId FOREIGN KEY (SuffixId) REFERENCES PrefixSuffix(PrefixSuffixId);
-ALTER TABLE CoreIdentity ADD CONSTRAINT fk_CoreIdentity_PlaceOfBirthId FOREIGN KEY (PlaceOfBirthId) REFERENCES geography(GeographyId);
-ALTER TABLE CoreIdentity ADD CONSTRAINT fk_CoreIdentity_SexId FOREIGN KEY (SexId) REFERENCES Sexes(SexId);
-ALTER TABLE CoreIdentity ADD CONSTRAINT fk_CoreIdentity_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE coreidentity ADD CONSTRAINT fk_coreidentity_prefixid FOREIGN KEY (prefixid) REFERENCES prefixsuffix(prefixsuffixid);
+ALTER TABLE coreidentity ADD CONSTRAINT fk_coreidentity_suffixid FOREIGN KEY (suffixid) REFERENCES prefixsuffix(prefixsuffixid);
+ALTER TABLE coreidentity ADD CONSTRAINT fk_coreidentity_placeofbirthid FOREIGN KEY (placeofbirthid) REFERENCES geography(geographyid);
+ALTER TABLE coreidentity ADD CONSTRAINT fk_coreidentity_sexid FOREIGN KEY (sexid) REFERENCES sexes(sexid);
+ALTER TABLE coreidentity ADD CONSTRAINT fk_coreidentity_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Vendors ADD CONSTRAINT fk_Vendors_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE vendors ADD CONSTRAINT fk_vendors_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE ContactTypes ADD CONSTRAINT fk_ContactTypes_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE contacttypes ADD CONSTRAINT fk_contacttypes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE ContractTypes ADD CONSTRAINT fk_ContractTypes_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE contracttypes ADD CONSTRAINT fk_contracttypes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE CountryCodes ADD CONSTRAINT fk_CountryCodes_CountryId FOREIGN KEY (CountryId) REFERENCES Countries(CountryId);
-ALTER TABLE CountryCodes ADD CONSTRAINT fk_CountryCodes_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE countrycodes ADD CONSTRAINT fk_countrycodes_countryid FOREIGN KEY (countryid) REFERENCES countries(countryid);
+ALTER TABLE countrycodes ADD CONSTRAINT fk_countrycodes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Countries ADD CONSTRAINT fk_Countries_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE countries ADD CONSTRAINT fk_countries_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Decisions ADD CONSTRAINT fk_Decisions_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE decisions ADD CONSTRAINT fk_decisions_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Adjudications ADD CONSTRAINT fk_Adjudications_RecordStatusID FOREIGN KEY (RecordStatusID) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE adjudications ADD CONSTRAINT fk_adjudications_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Aliases ADD CONSTRAINT fk_Aliases_CoreIdentityID FOREIGN KEY (CoreIdentityID) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE Aliases ADD CONSTRAINT fk_Aliases_RecordStatusID FOREIGN KEY (RecordStatusID) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE aliases ADD CONSTRAINT fk_aliases_coreidentityid FOREIGN KEY (coreidentityid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE aliases ADD CONSTRAINT fk_aliases_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE AssignmentTypes ADD CONSTRAINT fk_AssignmentTypes_RecordStatusID FOREIGN KEY (RecordStatusID) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE assignmenttypes ADD CONSTRAINT fk_assignmenttypes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE AssignmentStatuses ADD CONSTRAINT fk_AssignmentStatuses_RecordStatusID FOREIGN KEY (RecordStatusID) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE assignmentstatuses ADD CONSTRAINT fk_assignmentstatuses_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE Packages ADD CONSTRAINT fk_Packages_SpecialistId FOREIGN KEY (SpecialistId) REFERENCES CoreIdentity(CoreIdentityId);
-ALTER TABLE Packages ADD CONSTRAINT fk_Packages_PackageTypeId FOREIGN KEY (PackageTypeId) REFERENCES PackageTypes(PackageTypesId);
-ALTER TABLE Packages ADD CONSTRAINT fk_Packages_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE packages ADD CONSTRAINT fk_packages_specialistid FOREIGN KEY (specialistid) REFERENCES coreidentity(coreidentityid);
+ALTER TABLE packages ADD CONSTRAINT fk_packages_packagetypeid FOREIGN KEY (packagetypeid) REFERENCES packagetypes(packagetypeid);
+ALTER TABLE packages ADD CONSTRAINT fk_packages_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE PackageTypes ADD CONSTRAINT fk_PackageTypes_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE packagetypes ADD CONSTRAINT fk_packagetypes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE FormTypes ADD CONSTRAINT fk_FormTypes_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE formtypes ADD CONSTRAINT fk_formtypes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE PackageFormEvents ADD CONSTRAINT fk_PackageFormEvents_PackageId FOREIGN KEY (PackageId) REFERENCES Packages(PackagesId);
-ALTER TABLE PackageFormEvents ADD CONSTRAINT fk_PackageFormEvents_FormTypeId FOREIGN KEY (FormTypeId) REFERENCES FormTypes(FormTypesId);
-ALTER TABLE PackageFormEvents ADD CONSTRAINT fk_PackageFormEvents_RecordStatusId FOREIGN KEY (RecordStatusId) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE packageformevents ADD CONSTRAINT fk_packageformevents_packageid FOREIGN KEY (packageid) REFERENCES packages(packageid);
+ALTER TABLE packageformevents ADD CONSTRAINT fk_packageformevents_formtypeid FOREIGN KEY (formtypeid) REFERENCES formtypes(formtypeid);
+ALTER TABLE packageformevents ADD CONSTRAINT fk_packageformevents_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
-ALTER TABLE AuditLogs ADD CONSTRAINT fk_AuditLogs_RecordStatusID FOREIGN KEY (RecordStatusID) REFERENCES RecordStatuses(RecordStatusId);
+ALTER TABLE auditlogs ADD CONSTRAINT fk_auditlogs_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
 -- Disable all foreign key constraints
 DO $$

@@ -1,7 +1,8 @@
 DROP TABLE IF EXISTS OrganizationsHistory CASCADE;
+DROP TABLE IF EXISTS OrganizationsHistory CASCADE;
 CREATE TABLE OrganizationsHistory (
 	OrganizationsHistoryId SERIAL PRIMARY KEY,
-	HumanReadableId VARCHAR(20) NULL,
+	humanreadableid VARCHAR(20) NULL,
 	RecordStatusId INT NOT NULL,
 	OrganizationId INT NOT NULL,
 	OrganizationName VARCHAR(255) NOT NULL,
@@ -15,34 +16,90 @@ CREATE TABLE OrganizationsHistory (
 	Email VARCHAR(255),
 	Website VARCHAR(255),
 	Operation VARCHAR(10) NOT NULL,
-	CreatedBy INT NOT NULL,
-	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
-	ModifiedBy INT NULL,
-	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
-	DeletedBy INT NULL,
-	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
 );
 
-DROP TABLE IF EXISTS RecordStatuses CASCADE;
-CREATE TABLE RecordStatuses (
+-- Added missing Countries table for FK support
+DROP TABLE IF EXISTS Countries CASCADE;
+CREATE TABLE Countries (
+	CountryId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	Name VARCHAR(100) NOT NULL,
+	ISOCode CHAR(3) NOT NULL,
+	RecordStatusId INT NOT NULL,
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
+);
+
+-- Added missing RelationshipTypes table for FK support
+DROP TABLE IF EXISTS RelationshipTypes CASCADE;
+DROP TABLE IF EXISTS RelationshipTypes CASCADE;
+CREATE TABLE RelationshipTypes (
+	RelationshipTypeId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	Description VARCHAR(100) NOT NULL,
+	RecordStatusId INT NOT NULL,
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
+);
+
+-- Added missing CoreIdentityAdjudications table for FK support
+DROP TABLE IF EXISTS CoreIdentityAdjudications CASCADE;
+DROP TABLE IF EXISTS CoreIdentityAdjudications CASCADE;
+CREATE TABLE CoreIdentityAdjudications (
+	CoreIdentityAdjudicationId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	AdjudicationId INT NOT NULL,
+	CoreIdentityId INT NOT NULL,
+	RecordStatusId INT NOT NULL,
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
+);
+DROP TABLE IF EXISTS recordstatuses CASCADE;
+DROP TABLE IF EXISTS recordstatuses CASCADE;
+CREATE TABLE recordstatuses (
 	RecordStatusId SERIAL PRIMARY KEY,
-	HumanReadableId VARCHAR(20) NULL,
+	 humanreadableid VARCHAR(20) NULL,
 	StatusAbbreviation VARCHAR(50) NOT NULL UNIQUE,
 	StatusName VARCHAR(255) NULL,
-	CreatedBy INT NOT NULL,
-	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
-	ModifiedBy INT NULL,
-	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
-	DeletedBy INT NULL,
-	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS CoreIdentityInvestigationRequests CASCADE;
 DROP TABLE IF EXISTS CoreIdentityInvestigationRequests CASCADE;
 CREATE TABLE CoreIdentityInvestigationRequests (
 	CoreIdentityInvestigationRequestId SERIAL PRIMARY KEY,
@@ -51,17 +108,18 @@ CREATE TABLE CoreIdentityInvestigationRequests (
 	InvestigationRequestId INT NOT NULL,
 	CoreIdentityId INT NOT NULL,
 	AssignmentDate TIMESTAMP NOT NULL,
-	CreatedBy INT NOT NULL,
-	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
-	ModifiedBy INT NULL,
-	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
-	DeletedBy INT NULL,
-	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS ServiceProviders CASCADE;
 DROP TABLE IF EXISTS ServiceProviders CASCADE;
 CREATE TABLE ServiceProviders (
 	ServiceProviderId SERIAL PRIMARY KEY,
@@ -69,17 +127,18 @@ CREATE TABLE ServiceProviders (
 	RecordStatusId INT NOT NULL,
 	ProviderName VARCHAR(100) NOT NULL UNIQUE,
 	Description VARCHAR(255) NULL,
-	CreatedBy INT NOT NULL,
-	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
-	ModifiedBy INT NULL,
-	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
-	DeletedBy INT NULL,
-	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS InvestigationRequest CASCADE;
 DROP TABLE IF EXISTS InvestigationRequest CASCADE;
 CREATE TABLE InvestigationRequest (
 	InvestigationRequestId SERIAL PRIMARY KEY,
@@ -109,6 +168,7 @@ DROP TABLE IF EXISTS RelationshipTypeLookup CASCADE;
 DROP TABLE IF EXISTS SocialMediaPlatformLookup CASCADE;
 
 DROP TABLE IF EXISTS EmergencyContacts CASCADE;
+DROP TABLE IF EXISTS EmergencyContacts CASCADE;
 CREATE TABLE EmergencyContacts (
 	EmergencyContactId SERIAL PRIMARY KEY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -129,7 +189,58 @@ CREATE TABLE EmergencyContacts (
 );
 
 DROP TABLE IF EXISTS Phones CASCADE;
+DROP TABLE IF EXISTS Phones CASCADE;
 CREATE TABLE Phones (
+DROP TABLE IF EXISTS Countries CASCADE;
+-- Added missing CoreIdentityAdjudications table for FK support
+DROP TABLE IF EXISTS CoreIdentityAdjudications CASCADE;
+CREATE TABLE CoreIdentityAdjudications (
+	CoreIdentityAdjudicationId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	AdjudicationId INT NOT NULL,
+	CoreIdentityId INT NOT NULL,
+	RecordStatusId INT NOT NULL,
+	CreatedBy INT NOT NULL,
+	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CreatedIP VARCHAR(45) NOT NULL DEFAULT '::0',
+	ModifiedBy INT NULL,
+	ModifiedDate TIMESTAMP NULL,
+	ModifiedIP VARCHAR(45) NULL,
+	DeletedBy INT NULL,
+	DeletedDate TIMESTAMP NULL,
+	DeletedIP VARCHAR(45) NULL
+);
+CREATE TABLE Countries (
+	CountryId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	Name VARCHAR(100) NOT NULL,
+	ISOCode CHAR(3) NOT NULL,
+	RecordStatusId INT NOT NULL,
+	CreatedBy INT NOT NULL,
+	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CreatedIP VARCHAR(45) NOT NULL DEFAULT '::0',
+	ModifiedBy INT NULL,
+	ModifiedDate TIMESTAMP NULL,
+	ModifiedIP VARCHAR(45) NULL,
+	DeletedBy INT NULL,
+	DeletedDate TIMESTAMP NULL,
+	DeletedIP VARCHAR(45) NULL
+);
+
+-- Added missing RelationshipTypes table for FK support
+DROP TABLE IF EXISTS RelationshipTypes CASCADE;
+CREATE TABLE RelationshipTypes (
+	RelationshipTypeId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	Description VARCHAR(100) NOT NULL,
+	RecordStatusId INT NOT NULL,
+	CreatedBy INT NOT NULL,
+	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CreatedIP VARCHAR(45) NOT NULL DEFAULT '::0',
+	ModifiedBy INT NULL,
+	ModifiedDate TIMESTAMP NULL,
+	ModifiedIP VARCHAR(45) NULL,
+	DeletedBy INT NULL,
+	DeletedDate TIMESTAMP NULL,
+	DeletedIP VARCHAR(45) NULL
+);
 	PhoneId SERIAL PRIMARY KEY,
 	HumanReadableId VARCHAR(20) NULL,
 	RecordStatusId INT NOT NULL,
@@ -148,6 +259,7 @@ CREATE TABLE Phones (
 	DeletedIpAddress VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS CoreIdentityPhones CASCADE;
 DROP TABLE IF EXISTS CoreIdentityPhones CASCADE;
 CREATE TABLE CoreIdentityPhones (
 	CoreIdentityPhoneId SERIAL PRIMARY KEY,
@@ -169,6 +281,7 @@ CREATE TABLE CoreIdentityPhones (
 );
 
 DROP TABLE IF EXISTS Emails CASCADE;
+DROP TABLE IF EXISTS Emails CASCADE;
 CREATE TABLE Emails (
 	EmailId SERIAL PRIMARY KEY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -185,6 +298,7 @@ CREATE TABLE Emails (
 	DeletedIpAddress VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS CoreIdentityEmails CASCADE;
 DROP TABLE IF EXISTS CoreIdentityEmails CASCADE;
 CREATE TABLE CoreIdentityEmails (
 	CoreIdentityEmailId SERIAL PRIMARY KEY,
@@ -205,6 +319,7 @@ CREATE TABLE CoreIdentityEmails (
 	DeletedIpAddress VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS PostalAddresses CASCADE;
 DROP TABLE IF EXISTS PostalAddresses CASCADE;
 CREATE TABLE PostalAddresses (
 	PostalAddressId SERIAL PRIMARY KEY,
@@ -228,6 +343,7 @@ CREATE TABLE PostalAddresses (
 );
 
 DROP TABLE IF EXISTS CoreIdentityPostalAddresses CASCADE;
+DROP TABLE IF EXISTS CoreIdentityPostalAddresses CASCADE;
 CREATE TABLE CoreIdentityPostalAddresses (
 	CoreIdentityPostalAddressId SERIAL PRIMARY KEY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -247,6 +363,7 @@ CREATE TABLE CoreIdentityPostalAddresses (
 	DeletedIpAddress VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS SocialMedia CASCADE;
 DROP TABLE IF EXISTS SocialMedia CASCADE;
 CREATE TABLE SocialMedia (
 	SocialMediaId SERIAL PRIMARY KEY,
@@ -268,6 +385,7 @@ CREATE TABLE SocialMedia (
 );
 
 DROP TABLE IF EXISTS CoreIdentitySocialMedia CASCADE;
+DROP TABLE IF EXISTS CoreIdentitySocialMedia CASCADE;
 CREATE TABLE CoreIdentitySocialMedia (
 	CoreIdentitySocialMediaId SERIAL PRIMARY KEY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -288,6 +406,7 @@ CREATE TABLE CoreIdentitySocialMedia (
 );
 
 DROP TABLE IF EXISTS PointsOfContactPhones CASCADE;
+DROP TABLE IF EXISTS PointsOfContactPhones CASCADE;
 CREATE TABLE PointsOfContactPhones (
 	PointsOfContactPhoneId SERIAL PRIMARY KEY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -307,6 +426,7 @@ CREATE TABLE PointsOfContactPhones (
 	DeletedIpAddress VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS PointsOfContactEmails CASCADE;
 DROP TABLE IF EXISTS PointsOfContactEmails CASCADE;
 CREATE TABLE PointsOfContactEmails (
 	PointsOfContactEmailId SERIAL PRIMARY KEY,
@@ -330,6 +450,7 @@ CREATE TABLE PointsOfContactEmails (
 
 DROP TABLE IF EXISTS ContactTypeLookup CASCADE;
 
+DROP TABLE IF EXISTS Contracts CASCADE;
 DROP TABLE IF EXISTS Contracts CASCADE;
 CREATE TABLE Contracts (
 	ContractId SERIAL PRIMARY KEY,
@@ -355,6 +476,7 @@ CREATE TABLE Contracts (
 	DeletedIpAddress VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS Organizations CASCADE;
 DROP TABLE IF EXISTS Organizations CASCADE;
 CREATE TABLE Organizations (
 	OrganizationId SERIAL PRIMARY KEY,
@@ -382,6 +504,7 @@ CREATE TABLE Organizations (
 );
 
 DROP TABLE IF EXISTS Assignments CASCADE;
+DROP TABLE IF EXISTS Assignments CASCADE;
 CREATE TABLE Assignments (
 	AssignmentId SERIAL PRIMARY KEY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -407,56 +530,60 @@ CREATE TABLE Assignments (
 	DeletedIpAddress VARCHAR(45) NULL
 );
 
-DROP TABLE IF EXISTS TablePrefixes CASCADE;
-CREATE TABLE TablePrefixes (
-	PrefixId SERIAL PRIMARY KEY,
-	HumanReadableId VARCHAR(20) NULL,
-	TableName VARCHAR(50) NOT NULL UNIQUE,
-	TablePrefix VARCHAR(255) NULL,
-	CreatedBy INT NOT NULL,
-	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
-	ModifiedBy INT NULL,
-	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
-	DeletedBy INT NULL,
-	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+DROP TABLE IF EXISTS tableprefixes CASCADE;
+DROP TABLE IF EXISTS tableprefixes CASCADE;
+CREATE TABLE tableprefixes (
+	prefixid SERIAL PRIMARY KEY,
+	humanreadableid VARCHAR(20) NULL,
+	tablename VARCHAR(50) NOT NULL UNIQUE,
+	tableprefix VARCHAR(255) NULL,
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
 );
 DROP TABLE IF EXISTS Sexes CASCADE;
+DROP TABLE IF EXISTS Sexes CASCADE;
 CREATE TABLE Sexes (
-	SexId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	HumanReadableId VARCHAR(20) NULL,
-	Description TEXT,
-	RecordStatusId INT NOT NULL,
-	CreatedBy INT NOT NULL,
-	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIP VARCHAR(45) NOT NULL DEFAULT '::0',
-	ModifiedBy INT NULL,
-	ModifiedDate TIMESTAMP NULL,
-	ModifiedIP VARCHAR(45) NULL,
-	DeletedBy INT NULL,
-	DeletedDate TIMESTAMP NULL,
-	DeletedIP VARCHAR(45) NULL
+	sexid INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	humanreadableid VARCHAR(20) NULL,
+	description TEXT,
+	recordstatusid INT NOT NULL,
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS Geography CASCADE;
 CREATE TABLE Geography (
-	GeographyId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	HumanReadableId VARCHAR(20) NULL,
-	Description TEXT,
-	GeographyTypeId INT NOT NULL,
-	RecordStatusId INT NOT NULL,
-	CreatedBy INT NOT NULL,
-	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIP VARCHAR(45) NOT NULL DEFAULT '::0',
-	ModifiedBy INT NULL,
-	ModifiedDate TIMESTAMP NULL,
-	ModifiedIP VARCHAR(45) NULL,
-	DeletedBy INT NULL,
-	DeletedDate TIMESTAMP NULL,
-	DeletedIP VARCHAR(45) NULL
+	geographyid INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	humanreadableid VARCHAR(20) NULL,
+	description TEXT,
+	geographytypeid INT NOT NULL,
+	recordstatusid INT NOT NULL,
+	createdby INT NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INT NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INT NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS GeographyTypes CASCADE;
 CREATE TABLE GeographyTypes (
 	GeographyTypeId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -472,6 +599,7 @@ CREATE TABLE GeographyTypes (
 	DeletedDate TIMESTAMP NULL,
 	DeletedIP VARCHAR(45) NULL
 );
+DROP TABLE IF EXISTS OrganizationTypes CASCADE;
 DROP TABLE IF EXISTS OrganizationTypes CASCADE;
 CREATE TABLE OrganizationTypes (
 	OrganizationTypeId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -489,6 +617,7 @@ CREATE TABLE OrganizationTypes (
 	DeletedIP VARCHAR(45) NULL
 );
 DROP TABLE IF EXISTS PrefixSuffix CASCADE;
+DROP TABLE IF EXISTS PrefixSuffix CASCADE;
 CREATE TABLE PrefixSuffix (
 	PrefixSuffixId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -505,6 +634,7 @@ CREATE TABLE PrefixSuffix (
 	DeletedDate TIMESTAMP NULL,
 	DeletedIP VARCHAR(45) NULL
 );
+DROP TABLE IF EXISTS CoreIdentity CASCADE;
 DROP TABLE IF EXISTS CoreIdentity CASCADE;
 CREATE TABLE CoreIdentity (
 	CoreIdentityId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -533,6 +663,7 @@ CREATE TABLE CoreIdentity (
 	-- All FKs deferred
 );
 DROP TABLE IF EXISTS PointsOfContact CASCADE;
+DROP TABLE IF EXISTS PointsOfContact CASCADE;
 CREATE TABLE PointsOfContact (
 	PointOfContactId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -552,6 +683,7 @@ CREATE TABLE PointsOfContact (
 	DeletedIP VARCHAR(45) NULL
 	-- All FKs deferred
 );
+DROP TABLE IF EXISTS Vendors CASCADE;
 DROP TABLE IF EXISTS Vendors CASCADE;
 CREATE TABLE Vendors (
 	VendorId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -580,6 +712,7 @@ CREATE TABLE Vendors (
 	-- All FKs deferred
 );
 DROP TABLE IF EXISTS ContactTypes CASCADE;
+DROP TABLE IF EXISTS ContactTypes CASCADE;
 CREATE TABLE ContactTypes (
 	ContactTypeId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -599,6 +732,7 @@ CREATE TABLE ContactTypes (
 );
 
 DROP TABLE IF EXISTS ContractTypes CASCADE;
+DROP TABLE IF EXISTS ContractTypes CASCADE;
 CREATE TABLE ContractTypes (
 	ContractTypeId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -617,6 +751,7 @@ CREATE TABLE ContractTypes (
 	-- All FKs deferred
 );
 
+DROP TABLE IF EXISTS CountryCodes CASCADE;
 DROP TABLE IF EXISTS CountryCodes CASCADE;
 CREATE TABLE CountryCodes (
 	CountryCodeId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -639,6 +774,7 @@ CREATE TABLE CountryCodes (
 DROP TABLE IF EXISTS CountryLookup CASCADE;
 
 DROP TABLE IF EXISTS DecisionLookup CASCADE;
+DROP TABLE IF EXISTS Adjudications CASCADE;
 DROP TABLE IF EXISTS Adjudications CASCADE;
 CREATE TABLE Adjudications (
 	AdjudicationID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -665,6 +801,7 @@ CREATE TABLE Adjudications (
 );
 
 DROP TABLE IF EXISTS Aliases CASCADE;
+DROP TABLE IF EXISTS Aliases CASCADE;
 CREATE TABLE Aliases (
 	AliasID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableID VARCHAR(20) NULL,
@@ -682,6 +819,7 @@ CREATE TABLE Aliases (
 	DeletedIP VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS AssignmentTypes CASCADE;
 DROP TABLE IF EXISTS AssignmentTypes CASCADE;
 CREATE TABLE AssignmentTypes (
 	AssignmentTypeID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -701,6 +839,7 @@ CREATE TABLE AssignmentTypes (
 );
 
 DROP TABLE IF EXISTS AssignmentStatuses CASCADE;
+DROP TABLE IF EXISTS AssignmentStatuses CASCADE;
 CREATE TABLE AssignmentStatuses (
 	AssignmentStatusID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableID VARCHAR(20) NULL,
@@ -717,6 +856,7 @@ CREATE TABLE AssignmentStatuses (
 	DeletedDate TIMESTAMP NULL,
 	DeletedIP VARCHAR(45) NULL
 );
+DROP TABLE IF EXISTS Packages CASCADE;
 DROP TABLE IF EXISTS Packages CASCADE;
 CREATE TABLE Packages (
 	PackagesId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -739,6 +879,7 @@ CREATE TABLE Packages (
 );
 
 DROP TABLE IF EXISTS PackageTypes CASCADE;
+DROP TABLE IF EXISTS PackageTypes CASCADE;
 CREATE TABLE PackageTypes (
 	PackageTypesId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -758,6 +899,7 @@ CREATE TABLE PackageTypes (
 );
 
 DROP TABLE IF EXISTS FormTypes CASCADE;
+DROP TABLE IF EXISTS FormTypes CASCADE;
 CREATE TABLE FormTypes (
 	FormTypesId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableId VARCHAR(20) NULL,
@@ -776,6 +918,7 @@ CREATE TABLE FormTypes (
 	-- All FKs deferred
 );
 
+DROP TABLE IF EXISTS PackageFormEvents CASCADE;
 DROP TABLE IF EXISTS PackageFormEvents CASCADE;
 CREATE TABLE PackageFormEvents (
 	PackageFormEventsId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -799,20 +942,21 @@ CREATE TABLE PackageFormEvents (
 );
 
 DROP TABLE IF EXISTS AuditLogs CASCADE;
+DROP TABLE IF EXISTS AuditLogs CASCADE;
 CREATE TABLE AuditLogs (
 	AuditLogID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	HumanReadableID VARCHAR(20) NULL,
-	TableName VARCHAR(100) NOT NULL,
-	RecordID VARCHAR(100) NOT NULL,
-	Operation VARCHAR(10) NOT NULL,
-	ChangedData JSONB NULL,
-	RecordStatusID INT NOT NULL,
-	CreatedBy INT NOT NULL,
-	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIP VARCHAR(45) NOT NULL DEFAULT '::0',
-	ModifiedBy INT NULL,
-	ModifiedDate TIMESTAMP NULL,
-	ModifiedIP VARCHAR(45) NULL,
+	tablename VARCHAR(64) NOT NULL,
+	tableprefix VARCHAR(8) NOT NULL,
+	createdby INTEGER NOT NULL,
+	createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
+	modifiedby INTEGER NULL,
+	modifieddate TIMESTAMP NULL,
+	modifiedip VARCHAR(45) NULL,
+	deletedby INTEGER NULL,
+	deleteddate TIMESTAMP NULL,
+	deletedip VARCHAR(45) NULL
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
 	DeletedIP VARCHAR(45) NULL
@@ -823,6 +967,7 @@ CREATE TABLE AuditLogs (
 
 
 -- Websites and junction tables
+DROP TABLE IF EXISTS Websites CASCADE;
 DROP TABLE IF EXISTS Websites CASCADE;
 CREATE TABLE Websites (
 	WebsiteId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -841,6 +986,7 @@ CREATE TABLE Websites (
 );
 
 DROP TABLE IF EXISTS OrganizationWebsites CASCADE;
+DROP TABLE IF EXISTS OrganizationWebsites CASCADE;
 CREATE TABLE OrganizationWebsites (
 	OrganizationWebsiteId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	OrganizationId INT NOT NULL,
@@ -857,6 +1003,7 @@ CREATE TABLE OrganizationWebsites (
 	DeletedIP VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS VendorWebsites CASCADE;
 DROP TABLE IF EXISTS VendorWebsites CASCADE;
 CREATE TABLE VendorWebsites (
 	VendorWebsiteId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -875,6 +1022,7 @@ CREATE TABLE VendorWebsites (
 );
 
 -- CallsAndOrders table
+DROP TABLE IF EXISTS CallsAndOrders CASCADE;
 DROP TABLE IF EXISTS CallsAndOrders CASCADE;
 CREATE TABLE CallsAndOrders (
 	CallsAndOrdersId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,

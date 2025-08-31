@@ -1,10 +1,11 @@
--- Functions and triggers for HumanReadableID and audit columns
+-- Functions and triggers for humanreadableid and audit columns
 
--- Function to update HumanReadableID
+-- Function to update humanreadableid
 CREATE OR REPLACE FUNCTION update_human_readable_id()
 RETURNS TRIGGER AS $$
 DECLARE
     prefix TEXT;
+    pk_col TEXT;
     pk_value TEXT;
     padded_pk TEXT;
 BEGIN
@@ -13,13 +14,19 @@ BEGIN
     FROM TablePrefixes
     WHERE UPPER(TableName) = UPPER(TG_TABLE_NAME);
 
-    -- Get PK value and pad to 8 digits
-    pk_value := NEW.*::record;
-    pk_value := NEW.(SELECT column_name FROM information_schema.columns WHERE table_name = TG_TABLE_NAME AND column_name ILIKE '%id' AND ordinal_position = 1);
+    -- Dynamically find PK column for the current table
+    SELECT a.attname INTO pk_col
+    FROM pg_index i
+    JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey)
+    WHERE i.indrelid = TG_RELID AND i.indisprimary
+    LIMIT 1;
+
+    -- Get PK value from NEW
+    EXECUTE format('SELECT ($1).%I', pk_col) USING NEW INTO pk_value;
     padded_pk := LPAD(pk_value::TEXT, 8, '0');
 
-    -- Set HumanReadableID
-    NEW.HumanReadableId := prefix || '-' || padded_pk;
+    -- Always recalculate humanreadableid, ignore user input
+    NEW.humanreadableid := prefix || '-' || padded_pk;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -27,27 +34,35 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION set_modified_on_insert()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.ModifiedBy := NEW.CreatedBy;
-    NEW.ModifiedDate := NEW.CreatedDate;
-    NEW.ModifiedIP := NEW.CreatedIP;
+    NEW.modifiedby := NEW.createdby;
+    NEW.modifieddate := NEW.createddate;
+    NEW.modifiedip := NEW.createdip;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- Automated trigger creation for all tables with HumanReadableId and audit columns
+-- Automated trigger creation for all tables with humanreadableid and audit columns
 DO $$
 DECLARE
     r RECORD;
+    colname TEXT;
 BEGIN
     FOR r IN
         SELECT table_name
         FROM information_schema.columns
-        WHERE column_name = 'HumanReadableId'
+        WHERE column_name = 'humanreadableid'
           AND table_schema = 'public'
         GROUP BY table_name
     LOOP
+        EXECUTE format('DROP TRIGGER IF EXISTS trg_update_human_readable_id_%I ON %I;', r.table_name, r.table_name);
         EXECUTE format('CREATE TRIGGER trg_update_human_readable_id_%I BEFORE INSERT OR UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION update_human_readable_id();', r.table_name, r.table_name);
+        EXECUTE format('DROP TRIGGER IF EXISTS trg_set_modified_on_insert_%I ON %I;', r.table_name, r.table_name);
         EXECUTE format('CREATE TRIGGER trg_set_modified_on_insert_%I BEFORE INSERT ON %I FOR EACH ROW EXECUTE FUNCTION set_modified_on_insert();', r.table_name, r.table_name);
+        -- Find a text column to use for update
+        SELECT column_name INTO colname FROM information_schema.columns WHERE table_name = r.table_name AND data_type IN ('character varying', 'text') LIMIT 1;
+        IF colname IS NOT NULL THEN
+            EXECUTE format('UPDATE %I SET %I = %I;', r.table_name, colname, colname);
+        END IF;
     END LOOP;
 END $$;
 
