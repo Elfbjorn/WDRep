@@ -1,5 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CheckSsnComponent } from './check-ssn.component';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTableModule } from '@angular/material/table';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 describe('CheckSsnComponent', () => {
@@ -8,7 +17,18 @@ describe('CheckSsnComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CheckSsnComponent],
+      imports: [
+        CommonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatButtonModule,
+  MatCardModule,
+  MatProgressBarModule,
+  MatTableModule,
+  ReactiveFormsModule,
+  HttpClientTestingModule,
+  CheckSsnComponent
+      ],
     }).compileComponents();
   });
 

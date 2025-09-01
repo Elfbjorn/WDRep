@@ -1,0 +1,22 @@
+INSERT INTO ContactTypes (
+    ContactTypeName,
+    AppliesToEmail,
+    AppliesToPhone,
+    AppliesToSocialMedia,
+    AppliesToPostalAddress,
+    AppliesToWebsite,
+    RecordStatusId,
+    CreatedBy,
+    CreatedDate,
+    CreatedIP,
+    ModifiedBy,
+    ModifiedDate,
+    ModifiedIP,
+    DeletedBy,
+    DeletedDate,
+    DeletedIP
+) VALUES
+('Home', TRUE, TRUE, TRUE, TRUE, TRUE, 1, 1, current_timestamp, '::0', 1, current_timestamp, '::0', NULL, NULL, NULL),
+('Work', TRUE, TRUE, TRUE, TRUE, TRUE, 1, 1, current_timestamp, '::0', 1, current_timestamp, '::0', NULL, NULL, NULL),
+('School', TRUE, TRUE, FALSE, TRUE, FALSE, 1, 1, current_timestamp, '::0', 1, current_timestamp, '::0', NULL, NULL, NULL),
+('Mobile', FALSE, TRUE, FALSE, FALSE, FALSE, 1, 1, current_timestamp, '::0', 1, current_timestamp, '::0', NULL, NULL, NULL);

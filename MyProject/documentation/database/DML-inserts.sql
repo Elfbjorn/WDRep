@@ -89,7 +89,7 @@ VALUES
 ('City', 1, 0, current_timestamp, '::0', 0, current_timestamp, '::0', NULL, NULL, NULL);
 
 -- Seed data for Geographies
-INSERT INTO geography (description, geographytypeid, recordstatusid, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip)
+INSERT INTO geography (geographyname, geographytypeid, recordstatusid, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip)
 VALUES
 ('United States', 1, 1, 0, current_timestamp, '::0', 0, current_timestamp, '::0', NULL, NULL, NULL),
 ('Canada', 1, 1, 0, current_timestamp, '::0', 0, current_timestamp, '::0', NULL, NULL, NULL),

@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   postgres:
     image: postgres:16
@@ -12,6 +11,9 @@ services:
       - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./documentation/database/DDL-tables.sql:/docker-entrypoint-initdb.d/DDL-tables.sql:ro
+      - ./documentation/database/DDL-fk.sql:/docker-entrypoint-initdb.d/DDL-fk.sql:ro
+      - ./documentation/database/DML-inserts.sql:/docker-entrypoint-initdb.d/DML-inserts.sql:ro
   backend:
     build:
       context: ./server

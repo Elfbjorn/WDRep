@@ -102,6 +102,7 @@ ALTER TABLE tableprefixes ADD CONSTRAINT fk_tableprefixes_recordstatusid FOREIGN
 ALTER TABLE sexes ADD CONSTRAINT fk_sexes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
 ALTER TABLE geography ADD CONSTRAINT fk_geography_geographytypeid FOREIGN KEY (geographytypeid) REFERENCES geographytypes(geographytypeid);
+ALTER TABLE geography ADD CONSTRAINT fk_geography_parentid FOREIGN KEY (parentid) REFERENCES geography(geographyid);
 ALTER TABLE geography ADD CONSTRAINT fk_geography_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
 
 ALTER TABLE geographytypes ADD CONSTRAINT fk_geographytypes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);

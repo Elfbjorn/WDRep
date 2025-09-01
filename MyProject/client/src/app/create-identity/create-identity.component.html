@@ -1,97 +1,147 @@
 <div class="create-identity-container">
   <h1>[Eagle] Create Identity</h1>
   <mat-card>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Prefix</mat-label>
-        <mat-select formControlName="prefix">
-          <mat-option *ngFor="let p of prefixOptions" [value]="p.description">{{ p.description }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>First Name</mat-label>
-        <input matInput formControlName="firstname" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width" *ngIf="!form.value.noMiddleName">
-        <mat-label>Middle Name</mat-label>
-        <input matInput formControlName="middlename" />
-      </mat-form-field>
-      <mat-checkbox formControlName="noMiddleName" (change)="onNoMiddleNameChange($event.checked)">No Middle Name</mat-checkbox>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Last Name</mat-label>
-        <input matInput formControlName="lastname" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Suffix</mat-label>
-        <mat-select formControlName="suffix">
-          <mat-option *ngFor="let s of suffixOptions" [value]="s.description">{{ s.description }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Previous Last Name</mat-label>
-        <input matInput formControlName="previouslastname" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Preferred Name</mat-label>
-        <input matInput formControlName="preferredname" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Date of Birth</mat-label>
-        <input matInput formControlName="dob" type="date" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Social Security Number</mat-label>
-        <input matInput formControlName="ssn" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Sex</mat-label>
-        <mat-select formControlName="sex">
-          <mat-option *ngFor="let sex of sexOptions" [value]="sex">{{ sex }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Country</mat-label>
-        <mat-select formControlName="country" (selectionChange)="onCountryChange($event.value)">
-          <mat-option *ngFor="let c of countryOptions" [value]="c.name">{{ c.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width" *ngIf="form.value.country === 'United States'">
-        <mat-label>State</mat-label>
-        <mat-select formControlName="state" (selectionChange)="onStateChange($event.value)">
-          <mat-option *ngFor="let s of stateOptions" [value]="s.name">{{ s.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width" *ngIf="form.value.country !== 'United States'">
-        <mat-label>Region</mat-label>
-        <input matInput formControlName="state" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>City</mat-label>
-        <mat-select formControlName="city">
-          <mat-option *ngFor="let city of cityOptions" [value]="city.name">{{ city.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Primary Email Address</mat-label>
-        <input matInput formControlName="email" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Primary Phone Number</mat-label>
-        <input matInput formControlName="phone" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Primary Postal Address</mat-label>
-        <input matInput formControlName="postal" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Contact Type</mat-label>
-        <mat-select formControlName="contacttype">
-          <mat-option *ngFor="let ct of contactTypeOptions" [value]="ct.name">{{ ct.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div class="actions">
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-      </div>
-    </form>
+    <mat-tab-group [(selectedIndex)]="activeTab">
+      <mat-tab label="Basic Information">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Prefix</mat-label>
+            <mat-select formControlName="prefix">
+              <mat-option *ngFor="let p of prefixOptions" [value]="p.description">{{ p.description }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstname" required />
+          </mat-form-field>
+          <div class="middle-name-row">
+            <mat-form-field appearance="outline" class="middle-name-field">
+              <mat-label>Middle Name</mat-label>
+              <input matInput formControlName="middlename" [disabled]="middleNameDisabled" [ngClass]="{'faint': middleNameDisabled}" />
+            </mat-form-field>
+            <mat-checkbox formControlName="noMiddleName" (change)="onNoMiddleNameChange($event.checked)">No Middle Name</mat-checkbox>
+          </div>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastname" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Suffix</mat-label>
+            <mat-select formControlName="suffix">
+              <mat-option *ngFor="let s of suffixOptions" [value]="s.description">{{ s.description }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Previous Last Name</mat-label>
+            <input matInput formControlName="previouslastname" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Preferred Name</mat-label>
+            <input matInput formControlName="preferredname" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput formControlName="dob" type="date" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Social Security Number</mat-label>
+            <input matInput formControlName="ssn" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Sex</mat-label>
+            <mat-select formControlName="sex">
+              <mat-option *ngFor="let sex of sexOptions" [value]="sex">{{ sex }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="country" (selectionChange)="onCountryChange($event.value)">
+              <mat-option *ngFor="let c of countryOptions" [value]="c.name">{{ c.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width" *ngIf="form.value.country">
+            <mat-label>State</mat-label>
+            <mat-select formControlName="state">
+              <mat-option *ngFor="let s of stateOptions" [value]="s.name">{{ s.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" />
+          </mat-form-field>
+          <div class="actions">
+            <button mat-raised-button color="primary" type="button" (click)="activeTab = 1">Next</button>
+          </div>
+        </form>
+      </mat-tab>
+      <mat-tab label="Contact Information">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="contact-block" [formGroup]="form.get('contacts.email')">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email Type</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let ct of emailTypeOptions" [value]="ct.contacttypename || ct.name">{{ ct.contacttypename || ct.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email Address</mat-label>
+                <input matInput formControlName="value" required />
+              </mat-form-field>
+            </div>
+            <div class="contact-block" [formGroup]="form.get('contacts.phone')">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Phone Type</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let ct of phoneTypeOptions" [value]="ct.contacttypename || ct.name">{{ ct.contacttypename || ct.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="value" required />
+              </mat-form-field>
+            </div>
+            <div class="contact-block" [formGroup]="form.get('contacts.postal')">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Postal Type</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let ct of postalTypeOptions" [value]="ct.contacttypename || ct.name">{{ ct.contacttypename || ct.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Country</mat-label>
+                <mat-select formControlName="country" (selectionChange)="onPostalCountryChange($event.value)">
+                  <mat-option *ngFor="let c of postalCountryOptions" [value]="c.name">{{ c.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width" *ngIf="form.get('contacts.postal').value.country">
+                <mat-label>State</mat-label>
+                <mat-select formControlName="state">
+                  <mat-option *ngFor="let s of postalStateOptions" [value]="s.name">{{ s.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" required />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Zip</mat-label>
+                <input matInput formControlName="zip" required />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Address Line 1</mat-label>
+                <input matInput formControlName="line1" required />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Address Line 2</mat-label>
+                <input matInput formControlName="line2" />
+              </mat-form-field>
+            </div>
+            <div class="actions">
+              <button mat-raised-button color="primary" type="button" (click)="activeTab = 0">Back</button>
+              <button mat-raised-button color="primary" type="submit">Submit</button>
+            </div>
+          </form>
+      </mat-tab>
+    </mat-tab-group>
   </mat-card>
 </div>
