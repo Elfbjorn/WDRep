@@ -6,64 +6,98 @@ using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using WDRep.Server.Data; // Replace with your actual namespace for DbContext
+using WDRep.Server.Data;
+using WDRep.Server.Entities;
 
-namespace server.Controllers
+namespace WDRep.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/lookup")]
     public class LookupController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private readonly WdrepDbContext _context;
+        private readonly WDRepDbContext _context;
 
-        public LookupController(IConfiguration config, WdrepDbContext context)
+        public LookupController(IConfiguration config, WDRepDbContext context)
         {
             _config = config;
             _context = context;
         }
 
         [HttpGet("prefixsuffix")]
-        public IActionResult GetPrefixSuffix([FromQuery] string type)
+        public async Task<IActionResult> GetPrefixSuffix([FromQuery] string type)
         {
-            var connString = _config.GetConnectionString("DefaultConnection");
-            var results = new List<object>();
-            using var conn = new NpgsqlConnection(connString);
-            conn.Open();
-            using var cmd = new NpgsqlCommand("SELECT prefixsuffixid, description, category FROM prefixsuffix WHERE category = @type", conn);
-            cmd.Parameters.AddWithValue("@type", type);
-            using var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                results.Add(new {
-                    id = reader["prefixsuffixid"],
-                    description = reader["description"],
-                    category = reader["category"]
-                });
-            }
-            return Ok(results);
+            var items = await _context.PrefixSuffix
+                .Where(p => p.Category == type && p.RecordStatusId == 1)
+                .Select(p => new { id = p.PrefixSuffixId, description = p.Description })
+                .ToListAsync();
+            return Ok(items);
         }
 
         [HttpGet("countries")]
         public async Task<IActionResult> GetCountries()
         {
             var countries = await _context.Geography
-                .Where(g => g.GeographyTypeId == countryTypeId) // countryTypeId should be set appropriately
+                .Where(g => g.GeographyTypeId == 1 && g.RecordStatusId == 1)
                 .Select(g => new { id = g.GeographyId, name = g.GeographyName })
                 .ToListAsync();
-
             return Ok(countries);
         }
 
         [HttpGet("states")]
-        public async Task<IActionResult> GetStates(int countryId)
+        public async Task<IActionResult> GetStates([FromQuery] int countryId)
         {
             var states = await _context.Geography
-                .Where(g => g.ParentId == countryId && g.GeographyTypeId == stateTypeId) // stateTypeId should be set appropriately
+                .Where(g => g.GeographyTypeId == 2 && g.ParentId == countryId && g.RecordStatusId == 1)
                 .Select(g => new { id = g.GeographyId, name = g.GeographyName })
                 .ToListAsync();
-
             return Ok(states);
+        }
+
+        [HttpGet("cities")]
+        public async Task<IActionResult> GetCities([FromQuery] int stateId)
+        {
+            var cities = await _context.Geography
+                .Where(g => g.GeographyTypeId == 3 && g.ParentId == stateId && g.RecordStatusId == 1)
+                .Select(g => new { id = g.GeographyId, name = g.GeographyName })
+                .ToListAsync();
+            return Ok(cities);
+        }
+
+        [HttpGet("contacttypes")]
+        public async Task<IActionResult> GetContactTypes([FromQuery] string appliesTo)
+        {
+            if (string.IsNullOrWhiteSpace(appliesTo))
+                return BadRequest("appliesTo parameter is required.");
+
+            IQueryable<ContactType> query = _context.ContactTypes.Where(ct => ct.RecordStatusID == 1);
+
+            switch (appliesTo.ToLowerInvariant())
+            {
+                case "email":
+                    query = query.Where(ct => ct.AppliesToEmail);
+                    break;
+                case "phone":
+                    query = query.Where(ct => ct.AppliesToPhone);
+                    break;
+                case "postaladdress":
+                    query = query.Where(ct => ct.AppliesToPostalAddress);
+                    break;
+                case "socialmedia":
+                    query = query.Where(ct => ct.AppliesToSocialMedia);
+                    break;
+                case "website":
+                    query = query.Where(ct => ct.AppliesToWebsite);
+                    break;
+                default:
+                    return BadRequest("Invalid appliesTo parameter.");
+            }
+
+            var types = await query
+                .Select(ct => new { id = ct.ContactTypeId, name = ct.ContactTypeName })
+                .ToListAsync();
+
+            return Ok(types);
         }
     }
 }
