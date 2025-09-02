@@ -14,14 +14,22 @@
         <option *ngFor="let prefix of prefixes" [ngValue]="prefix.prefixsuffixid">{{ prefix.description }}</option>
       </select>
 
-      <label for="firstName">First Name<span style="color:red">*</span></label>
-      <input id="firstName" name="firstName" [(ngModel)]="firstName" required />
+  <label for="firstName" class="required-label">First Name <span class="required-asterisk">*</span></label>
+  <input id="firstName" name="firstName" [(ngModel)]="firstName" required [ngClass]="'required-field'" />
 
-      <label for="middleName">Middle Name</label>
-      <input id="middleName" name="middleName" [(ngModel)]="middleName" />
+      <div class="form-group">
+        <label for="middleName">Middle Name</label>
+        <div class="middle-name-row" style="display: flex; align-items: center; gap: 1em;">
+          <input id="middleName" name="middleName" [(ngModel)]="middleName" [disabled]="noMiddleName" [ngClass]="noMiddleName ? 'nmn-disabled required-field' : 'optional-field'" />
+          <label class="nmn-checkbox-label" style="margin: 0; display: flex; align-items: center;">
+            <input type="checkbox" [(ngModel)]="noMiddleName" (change)="onNoMiddleNameChange()" style="margin-right: 0.25em;" />
+            <span class="nmn-checkbox-text">No Middle Name</span>
+          </label>
+        </div>
+      </div>
 
-      <label for="lastName">Last Name<span style="color:red">*</span></label>
-      <input id="lastName" name="lastName" [(ngModel)]="lastName" required />
+  <label for="lastName" class="required-label">Last Name <span class="required-asterisk">*</span></label>
+  <input id="lastName" name="lastName" [(ngModel)]="lastName" required [ngClass]="'required-field'" />
 
       <label for="suffix">Suffix</label>
       <select id="suffix" [(ngModel)]="selectedSuffix" name="suffix">
@@ -29,98 +37,119 @@
         <option *ngFor="let suffix of suffixes" [ngValue]="suffix.prefixsuffixid">{{ suffix.description }}</option>
       </select>
 
-      <label for="previousLastName">Previous Last Name</label>
-      <input id="previousLastName" name="previousLastName" [(ngModel)]="previousLastName" />
+  <label for="previousLastName">Previous Last Name</label>
+  <input id="previousLastName" name="previousLastName" [(ngModel)]="previousLastName" [ngClass]="'optional-field'" />
 
-      <label for="preferredName">Preferred Name</label>
-      <input id="preferredName" name="preferredName" [(ngModel)]="preferredName" />
+  <label for="preferredName">Preferred Name</label>
+  <input id="preferredName" name="preferredName" [(ngModel)]="preferredName" [ngClass]="'optional-field'" />
 
-      <label for="dob">Date of Birth<span style="color:red">*</span></label>
-      <input id="dob" name="dob" type="date" [(ngModel)]="dob" required />
+  <label for="dob" class="required-label">Date of Birth <span class="required-asterisk">*</span></label>
+  <input id="dob" name="dob" type="date" [(ngModel)]="dob" required [ngClass]="'required-field'" />
 
-      <label for="ssn">Social Security Number<span style="color:red">*</span></label>
-      <input id="ssn" name="ssn" [(ngModel)]="ssn" required maxlength="11" placeholder="XXX-XX-XXXX" />
+  <label for="ssn" class="required-label">Social Security Number <span class="required-asterisk">*</span></label>
+  <input id="ssn" name="ssn" [(ngModel)]="ssn" required maxlength="11" placeholder="XXX-XX-XXXX" [ngClass]="'required-field'" [value]="maskedSsn" (input)="ssn = $event.target.value" />
 
-      <label for="sex">Sex<span style="color:red">*</span></label>
-      <select id="sex" name="sex" [(ngModel)]="selectedSex" required>
+  <label for="sex" class="required-label">Sex <span class="required-asterisk">*</span></label>
+  <select id="sex" name="sex" [(ngModel)]="selectedSex" required [ngClass]="'required-field'">
         <option [ngValue]="null">Select sex</option>
         <option *ngFor="let sex of sexes" [ngValue]="sex.sexid">{{ sex.description }}</option>
       </select>
 
 
-      <label for="country">Country of Birth</label>
-      <select id="country" name="country" [(ngModel)]="selectedCountry" (ngModelChange)="onCountryChange()">
+  <label for="countryOfBirth" class="required-label">Country of Birth <span class="required-asterisk">*</span></label>
+    <select id="countryOfBirth" name="countryOfBirth" [(ngModel)]="selectedCountry" (ngModelChange)="onCountryChange()" [ngClass]="'optional-field'">
         <option [ngValue]="null">Select a country</option>
         <option *ngFor="let country of countries" [ngValue]="country.geographyId">{{ country.geographyName }}</option>
       </select>
 
       <ng-container *ngIf="selectedCountry">
         <ng-container *ngIf="isUsOrCanada; else stateTextField">
-          <label for="state">State of Birth<span style="color:red">*</span></label>
-          <select id="state" name="state" [(ngModel)]="selectedState" required>
+          <label for="state" class="required-label">State of Birth <span class="required-asterisk">*</span></label>
+          <select id="state" name="state" [(ngModel)]="selectedState" required [ngClass]="'required-field'">
             <option [ngValue]="null">Select a state</option>
             <option *ngFor="let state of states" [ngValue]="state.geographyId">{{ state.geographyName }}</option>
           </select>
         </ng-container>
         <ng-template #stateTextField>
-          <label for="state">State of Birth<span style="color:red">*</span></label>
-          <input id="state" name="state" [(ngModel)]="stateText" required />
+
+<!--          <label for="state" class="required-label">State of Birth <span class="required-asterisk">*</span></label>-->
+            <label for="state">State of Birth <span class="required-asterisk">*</span></label>
+          <input id="state" name="state" [(ngModel)]="stateText" required [ngClass]="'required-field'" />
         </ng-template>
       </ng-container>
 
-      <label for="city">City of Birth<span style="color:red">*</span></label>
-      <input id="city" name="city" [(ngModel)]="city" required />
+  <label for="city" class="required-label">City of Birth <span class="required-asterisk">*</span></label>
+  <input id="city" name="city" [(ngModel)]="city" required [ngClass]="'required-field'" />
 
     </form>
-    <form class="prefix-form" *ngIf="activeTab === 'contact'" #contactForm="ngForm">
-      <!-- Email -->
-      <label for="emailType">Email Type<span style="color:red">*</span></label>
+    <div *ngIf="activeTab === 'basic'" class="button-row">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+      <div class="button-group-right">
+        <button type="button" class="btn-back" (click)="onBack()">Back</button>
+        <button type="button" class="btn-next" (click)="onNext()">Next</button>
+      </div>
+    </div>
+  <ng-container *ngIf="activeTab === 'contact'">
+    <div class="contact-card">
+      <h3>Email</h3>
+      <label for="emailType" class="required-label">Email Type<span class="required-asterisk">*</span></label>
       <select id="emailType" name="emailType" [(ngModel)]="selectedEmailType" required>
         <option [ngValue]="null">Select email type</option>
-              <option *ngFor="let type of emailTypes" [ngValue]="type.contactTypeId">{{ type.contactTypeName }}</option>
+        <option *ngFor="let type of emailTypes" [ngValue]="type.contactTypeId">{{ type.contactTypeName }}</option>
       </select>
-      <label for="primaryEmail">Primary Email Address<span style="color:red">*</span></label>
+      <label for="primaryEmail" class="required-label">Primary Email Address<span class="required-asterisk">*</span></label>
       <input id="primaryEmail" name="primaryEmail" [(ngModel)]="primaryEmail" required type="email" />
-      <!-- Phone -->
-      <label for="phoneType">Phone Type<span style="color:red">*</span></label>
+    </div>
+    <div class="contact-card">
+      <h3>Phone</h3>
+      <label for="phoneType" class="required-label">Phone Type<span class="required-asterisk">*</span></label>
       <select id="phoneType" name="phoneType" [(ngModel)]="selectedPhoneType" required>
         <option [ngValue]="null">Select phone type</option>
-              <option *ngFor="let type of phoneTypes" [ngValue]="type.contactTypeId">{{ type.contactTypeName }}</option>
+        <option *ngFor="let type of phoneTypes" [ngValue]="type.contactTypeId">{{ type.contactTypeName }}</option>
       </select>
-      <label for="primaryPhone">Primary Phone Number<span style="color:red">*</span></label>
+      <label for="primaryPhone" class="required-label">Primary Phone Number<span class="required-asterisk">*</span></label>
       <input id="primaryPhone" name="primaryPhone" [(ngModel)]="primaryPhone" required />
-      <!-- Address -->
-      <label for="addressType">Address Type<span style="color:red">*</span></label>
+    </div>
+    <div class="contact-card">
+      <h3>Postal Address</h3>
+      <label for="addressType" class="required-label">Address Type<span class="required-asterisk">*</span></label>
       <select id="addressType" name="addressType" [(ngModel)]="selectedAddressType" required>
         <option [ngValue]="null">Select address type</option>
-              <option *ngFor="let type of addressTypes" [ngValue]="type.contactTypeId">{{ type.contactTypeName }}</option>
+        <option *ngFor="let type of addressTypes" [ngValue]="type.contactTypeId">{{ type.contactTypeName }}</option>
       </select>
-      <label for="addressLine1">Address Line 1<span style="color:red">*</span></label>
+      <label for="addressLine1" class="required-label">Address Line 1<span class="required-asterisk">*</span></label>
       <input id="addressLine1" name="addressLine1" [(ngModel)]="addressLine1" required />
       <label for="addressLine2">Address Line 2</label>
       <input id="addressLine2" name="addressLine2" [(ngModel)]="addressLine2" />
-      <label for="contactCountry">Country<span style="color:red">*</span></label>
+      <label for="contactCountry" class="required-label">Country<span class="required-asterisk">*</span></label>
       <select id="contactCountry" name="contactCountry" [(ngModel)]="contactSelectedCountry" (ngModelChange)="onContactCountryChange()" required>
         <option [ngValue]="null">Select a country</option>
         <option *ngFor="let country of contactCountryList" [ngValue]="country.geographyId">{{ country.geographyName }}</option>
       </select>
       <ng-container *ngIf="contactSelectedCountry">
         <ng-container *ngIf="isContactUsOrCanada; else contactStateTextField">
-          <label for="contactState">State<span style="color:red">*</span></label>
+          <label for="contactState" class="required-label">State<span class="required-asterisk">*</span></label>
           <select id="contactState" name="contactState" [(ngModel)]="contactSelectedState" required>
             <option [ngValue]="null">Select a state</option>
             <option *ngFor="let state of contactStates" [ngValue]="state.geographyId">{{ state.geographyName }}</option>
           </select>
         </ng-container>
         <ng-template #contactStateTextField>
-          <label for="contactState">State<span style="color:red">*</span></label>
+          <label for="contactState" class="required-label">State<span class="required-asterisk">*</span></label>
           <input id="contactState" name="contactState" [(ngModel)]="contactStateText" required />
         </ng-template>
       </ng-container>
-      <label for="contactCity">City<span style="color:red">*</span></label>
+      <label for="contactCity" class="required-label">City<span class="required-asterisk">*</span></label>
       <input id="contactCity" name="contactCity" [(ngModel)]="contactCity" required />
-      <label for="contactZip">ZIP Code<span style="color:red">*</span></label>
+      <label for="contactZip" class="required-label">ZIP Code<span class="required-asterisk">*</span></label>
       <input id="contactZip" name="contactZip" [(ngModel)]="contactZip" required />
-    </form>
-  </div>
-</div>
+    </div>
+    <!-- Button Row for Contact Information tab -->
+    <div class="button-row">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+      <div class="button-group-right">
+        <button type="button" class="btn-back" (click)="onBack()">Back</button>
+        <button type="button" class="btn-next" (click)="onNext()">Save</button>
+      </div>
+    </div>
+  </ng-container>

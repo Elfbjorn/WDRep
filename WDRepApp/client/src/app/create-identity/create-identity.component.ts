@@ -1,7 +1,10 @@
+// ...existing code...
 import { Component, OnInit } from '@angular/core';
+import { maskSsn } from '../utils/masking.utils';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-identity',
@@ -52,6 +55,7 @@ export class CreateIdentityComponent implements OnInit {
   contactStateText: string = '';
   contactCity: string = '';
   contactZip: string = '';
+  noMiddleName = false;
   // Helper for contact country/state/city
   get isContactUsOrCanada(): boolean {
     const selected = this.contactCountryList.find((c: any) => c.geographyId === this.contactSelectedCountry);
@@ -72,6 +76,9 @@ export class CreateIdentityComponent implements OnInit {
   selectedCountry: number | null = null;
   dob: string = '';
   ssn: string = '';
+  get maskedSsn(): string {
+    return maskSsn(this.ssn);
+  }
   prefixes: { prefixsuffixid: number, description: string }[] = [];
   suffixes: { prefixsuffixid: number, description: string }[] = [];
   selectedPrefix: number | null = null;
@@ -84,12 +91,19 @@ export class CreateIdentityComponent implements OnInit {
     previousLastName: string = '';
     preferredName: string = '';
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
+
 
   ngOnInit() {
+    // 1. Load dropdowns as before
     this.loading = true;
     this.http.get<any>('/api/identity/dropdowns').subscribe(
       (data) => {
+        this.contactCountryList = (data?.countries || []).map((c: any) => ({
+          geographyId: c.geographyId ?? c.geographyid,
+          geographyName: c.geographyName ?? c.geographyname
+        }));
         this.prefixes = (data?.prefixes || []).map((p: any) => ({
           prefixsuffixid: p.prefixsuffixid ?? p.prefixSuffixId,
           description: p.description
@@ -106,7 +120,6 @@ export class CreateIdentityComponent implements OnInit {
           geographyId: c.geographyId ?? c.geographyid,
           geographyName: c.geographyName ?? c.geographyname
         }));
-        // Contact dropdowns
         this.emailTypes = (data?.emailTypes || []).map((t: any) => ({
           contactTypeId: t.contactTypeId,
           contactTypeName: t.contactTypeName
@@ -119,10 +132,6 @@ export class CreateIdentityComponent implements OnInit {
           contactTypeId: t.contactTypeId,
           contactTypeName: t.contactTypeName
         }));
-        this.contactCountryList = (data?.countries || []).map((c: any) => ({
-          geographyId: c.geographyId ?? c.geographyid,
-          geographyName: c.geographyName ?? c.geographyname
-        }));
         this.loading = false;
       },
       () => {
@@ -130,7 +139,59 @@ export class CreateIdentityComponent implements OnInit {
         this.loading = false;
       }
     );
-    // If you have a value from /check-ssn, set this.ssn = value;
+
+    // 2. Retrieve token from sessionStorage (set by check-ssn)
+    const token = sessionStorage.getItem('ssn_token');
+    if (!token) {
+      this.error = 'No SSN token found. Please start from the SSN check.';
+      return;
+    }
+
+    // 3. Use token to get SSN
+    this.loading = true;
+  this.http.post<any>('/api/identity/ssn-from-token', { token: token }, { headers: { 'Content-Type': 'application/json' } })
+      .subscribe({
+        next: (res: any) => {
+          this.ssn = maskSsn(res.ssn);
+          // 4. Check if SSN is in coreidentity
+          this.http.post<any>('/api/identity/check-ssn', JSON.stringify(res.ssn), { headers: { 'Content-Type': 'application/json' } })
+            .subscribe({
+              next: (result: any) => {
+                this.loading = false;
+                if (result && result.found) {
+                  // Populate all fields from coreidentity
+                  this.firstName = result.firstname || '';
+                  this.middleName = result.middlename || '';
+                  this.lastName = result.lastname || '';
+                  this.dob = result.dob || '';
+                  this.selectedPrefix = result.prefixid || null;
+                  this.selectedSuffix = result.suffixid || null;
+                  this.selectedSex = result.sexid || null;
+                  this.selectedCountry = result.placeofbirthid || null;
+                  // ...add more fields as needed...
+                } else {
+                  // Not found: only populate SSN
+                  this.firstName = '';
+                  this.middleName = '';
+                  this.lastName = '';
+                  this.dob = '';
+                  this.selectedPrefix = null;
+                  this.selectedSuffix = null;
+                  this.selectedSex = null;
+                  this.selectedCountry = null;
+                }
+              },
+              error: () => {
+                this.loading = false;
+                this.error = 'Failed to check SSN in database.';
+              }
+            });
+        },
+        error: () => {
+          this.loading = false;
+          this.error = 'Failed to retrieve SSN from token.';
+        }
+      });
   }
 
   onCountryChange() {
@@ -152,5 +213,27 @@ export class CreateIdentityComponent implements OnInit {
     }
     this.selectedState = null;
     this.stateText = '';
+  }
+
+  onNoMiddleNameChange() {
+    if (this.noMiddleName) {
+      this.middleName = 'NMN';
+    } else if (this.middleName === 'NMN') {
+      this.middleName = '';
+    }
+  }
+
+  onCancel() {
+    // Implement cancel logic as needed (e.g., clear form, navigate away, etc.)
+    // For now, just navigate to the home page
+    this.router.navigate(['/']);
+  }
+
+  onBack() {
+    this.router.navigate(['/check-ssn']);
+  }
+
+  onNext() {
+    this.activeTab = 'contact';
   }
 }

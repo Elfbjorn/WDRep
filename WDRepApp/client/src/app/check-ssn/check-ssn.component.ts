@@ -92,8 +92,13 @@ export class CheckSsnComponent implements OnInit {
 
 
   proceed() {
-    // Always navigate to create-identity, passing the result (even if not found)
-    this.router.navigate(['/create-identity'], { state: { identityData: this.result } });
+    // Store the SSN token if present (for new identities)
+    if (this.result && this.result.token) {
+      sessionStorage.setItem('ssn_token', this.result.token);
+    } else {
+      sessionStorage.removeItem('ssn_token');
+    }
+    this.router.navigate(['/create-identity']);
   }
 
   protected readonly maskSsn = maskSsn;

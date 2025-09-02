@@ -1,3 +1,94 @@
+/* Button styles for both tabs */
+.btn-cancel {
+	background: #d32f2f;
+	color: #fff;
+	border: none;
+	padding: 0.6em 1.5em;
+	border-radius: 4px;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 1.1em;
+	transition: background 0.2s, color 0.2s;
+}
+.btn-cancel:hover {
+	background: #b71c1c;
+}
+.btn-back {
+	background: #e3f2fd;
+	color: #0d47a1;
+	border: none;
+	padding: 0.6em 1.5em;
+	border-radius: 4px;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 1.1em;
+	transition: background 0.2s, color 0.2s;
+}
+.btn-back:hover {
+	background: #bbdefb;
+}
+.btn-next {
+	background: #0d47a1;
+	color: #fff;
+	border: none;
+	padding: 0.6em 1.5em;
+	border-radius: 4px;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 1.1em;
+	transition: background 0.2s, color 0.2s;
+}
+.btn-next:hover {
+	background: #1565c0;
+}
+.contact-card {
+	max-width: 560px;
+	margin: 2em auto 0 auto;
+	padding: 2em 2.5em 2em 2.5em;
+	background: #fff;
+	border-radius: 1.2em;
+	box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
+	display: flex;
+	flex-direction: column;
+	gap: 1.5em;
+}
+
+.contact-card label,
+.contact-card select,
+.contact-card input {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.button-row {
+	max-width: 560px;
+	margin: 2em auto 0 auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+.button-group-right {
+	display: flex;
+	flex-direction: row;
+	gap: 1em;
+	margin-left: auto;
+}
+.required-label {
+	display: flex;
+	flex-direction: row;
+	gap: 4px;
+	font-weight: 500;
+	justify-content: flex-start;
+	white-space: nowrap;
+}
+.required-asterisk {
+	color: red;
+	font-size: 1.2em;
+	margin-left: 2px;
+	line-height: 1;
+	white-space: nowrap;
+}
 /* Tab group styling */
 .tab-group {
 	display: flex;
@@ -30,7 +121,7 @@
 	color: #1976d2;
 }
 .tab-content {
-	background: #fff;
+	background: #ddd;
 	border: 1px solid #ccc;
 	border-radius: 0 0 8px 8px;
 	padding: 2rem 2.5rem 1.5rem 2.5rem;
@@ -44,10 +135,52 @@
 	min-height: 100vh;
 	background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
 	font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+.required-asterisk {
+	color: red;
+	font-size: 1.2em;
+	margin-left: 2px;
+}
+
+.required-field {
+	border-left: 4px solid #e53935;
+	background: transparent;
+}
+
+.optional-field {
+	background: #e3f2fd;
+}
+
+.middle-name-row {
+	display: flex;
+	align-items: center;
+}
+
+.middle-name-row label {
+	margin-right: 8px;
+}
+
+.nmn-checkbox-label {
+	margin-left: 8px;
+	font-size: 0.85em;
+	color: #555;
+	display: flex;
+	align-items: center;
+}
+
+.nmn-checkbox-text {
+	font-size: 0.85em;
+	color: #555;
+}
+
+.nmn-disabled {
+	color: #888 !important;
+	background: #fff !important;
+	opacity: 0.7;
+}
 }
 
 .prefix-form {
-	max-width: 400px;
+	max-width: 560px;
 	margin: 3em auto 0 auto;
 	padding: 2em 2.5em 2em 2.5em;
 	background: #fff;
@@ -63,6 +196,9 @@ label {
 	flex-direction: column;
 	font-size: 1.05em;
 	gap: 0.3em;
+}
+.required-label {
+	flex-direction: row;
 }
 select, input {
 	padding: 0.7em 1em;

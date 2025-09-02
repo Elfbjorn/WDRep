@@ -1,8 +1,16 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WDRepApp.Server.Data;
 using WDRepApp.Server.Entities;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System;
+
+public class SsnTokenRequest
+{
+    public Guid Token { get; set; }
+}
 
 namespace WDRepApp.Server.Controllers
 {
@@ -16,7 +24,7 @@ namespace WDRepApp.Server.Controllers
             _db = db;
         }
 
-        [HttpPost("check-ssn")]
+    [HttpPost("check-ssn")]
         public async Task<IActionResult> CheckSSN([FromBody] string ssn)
         {
             // Normalize and validate SSN
@@ -24,15 +32,28 @@ namespace WDRepApp.Server.Controllers
             if (!Regex.IsMatch(normalized, "^\\d{9}$"))
                 return BadRequest("Invalid SSN format");
 
-            // The original implementation fetched all records and filtered in memory, which is a major performance anti-pattern.
-            // This is corrected by running a filter on the database side.
-            // This assumes SSNs in the DB are either stored as raw digits (XXXXXXXXX) or formatted (XXX-XX-XXXX),
-            // which is a reasonable assumption given the frontend's formatting logic.
-            var formattedSsn = $"{normalized.Substring(0, 3)}-{normalized.Substring(3, 2)}-{normalized.Substring(5, 4)}"; // PascalCase properties
-            var match = await _db.CoreIdentity.FirstOrDefaultAsync(x => x.Ssn == normalized || x.Ssn == formattedSsn);
+            var sek = Environment.GetEnvironmentVariable("EAGLE_SEK") ?? "test_secret";
+
+            // Query using decryption in SQL
+            var match = await _db.CoreIdentity
+                .FromSqlRaw(@"
+                    SELECT * FROM coreidentity
+                    WHERE pgp_sym_decrypt(ssn, {0}) = {1}
+                    LIMIT 1
+                ", sek, normalized)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
 
             if (match == null)
-                return Ok(new { found = false });
+            {
+                // Generate a token and store encrypted SSN in ssn_tokens
+                var token = Guid.NewGuid();
+                await _db.Database.ExecuteSqlRawAsync(@"
+                    INSERT INTO ssn_tokens (token, encrypted_ssn, expires_at)
+                    VALUES ({0}, pgp_sym_encrypt({1}, {2}), now() + interval '10 minutes')
+                ", token, normalized, sek);
+                return Ok(new { found = false, token });
+            }
             return Ok(new {
                 coreidentityid = match.CoreIdentityId,
                 found = true,
@@ -46,6 +67,60 @@ namespace WDRepApp.Server.Controllers
                 sexid = match.SexId,
                 placeofbirthid = match.PlaceOfBirthId
             });
+        }
+
+        [HttpPost("ssn-from-token")]
+        public async Task<IActionResult> GetSSNFromToken([FromBody] SsnTokenRequest request)
+        {
+            var token = request.Token;
+            var sek = Environment.GetEnvironmentVariable("EAGLE_SEK") ?? "test_secret";
+            // 1. Look up the encrypted SSN by token
+            var ssnToken = await _db.SsnTokens.FirstOrDefaultAsync(t => t.Token == token);
+            if (ssnToken == null)
+            {
+                Console.WriteLine($"[GetSSNFromToken] Token not found: {token}");
+                return NotFound(new { error = "Token not found" });
+            }
+            if (ssnToken.ExpiresAt <= DateTime.UtcNow)
+            {
+                Console.WriteLine($"[GetSSNFromToken] Token expired: {token}, expires_at={ssnToken.ExpiresAt}, now={DateTime.UtcNow}");
+                // Optionally, delete expired token
+                _db.SsnTokens.Remove(ssnToken);
+                await _db.SaveChangesAsync();
+                return NotFound(new { error = "Token expired" });
+            }
+
+            // 2. Delete the token for one-time use
+            _db.SsnTokens.Remove(ssnToken);
+            await _db.SaveChangesAsync();
+
+            // 3. Decrypt the SSN using raw SQL (since EF can't call pgp_sym_decrypt directly)
+            string? decryptedSsn = null;
+            try
+            {
+                using (var cmd = _db.Database.GetDbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT pgp_sym_decrypt(@ssn, @sek)";
+                    var paramSsn = cmd.CreateParameter();
+                    paramSsn.ParameterName = "@ssn";
+                    paramSsn.Value = ssnToken.EncryptedSsn;
+                    cmd.Parameters.Add(paramSsn);
+                    var paramSek = cmd.CreateParameter();
+                    paramSek.ParameterName = "@sek";
+                    paramSek.Value = sek;
+                    cmd.Parameters.Add(paramSek);
+                    await _db.Database.OpenConnectionAsync();
+                    var result = await cmd.ExecuteScalarAsync();
+                    decryptedSsn = result?.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[GetSSNFromToken] Exception during decryption: {ex.Message}");
+                return StatusCode(500, new { error = "Decryption failed", details = ex.Message });
+            }
+            Console.WriteLine($"[GetSSNFromToken] Success for token: {token}");
+            return Ok(new { ssn = decryptedSsn });
         }
 
         [HttpGet("dropdowns")]
