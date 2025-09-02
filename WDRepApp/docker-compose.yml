@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16
+    container_name: wdrep_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: wdrep
+      POSTGRES_PASSWORD: wdrep
+      POSTGRES_DB: wdrep
+    ports:
+      - "55432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  backend:
+    build: ./server
+    container_name: wdrep_backend
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=wdrep;Username=wdrep;Password=wdrep
+    ports:
+      - "5000:8080"
+    depends_on:
+      - postgres
+  frontend:
+    build: ./client
+    container_name: wdrep_frontend
+    restart: always
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+volumes:
+  pgdata:
