@@ -1,0 +1,136 @@
+
+
+/* Modern, clean, accessible styles for check-ssn page */
+:host {
+	display: block;
+	min-height: 100vh;
+	background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+	font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+form {
+	max-width: 400px;
+	margin: 3em auto 0 auto;
+	padding: 2em 2.5em 2em 2.5em;
+	background: #fff;
+	border-radius: 1.2em;
+	box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
+	display: flex;
+	flex-direction: column;
+	gap: 1.5em;
+}
+
+input[type="text"], input[type="password"], input[type="number"], input[type="date"] {
+	padding: 0.7em 1em;
+	border: 1.5px solid #d1d5db;
+	border-radius: 0.5em;
+	font-size: 1.1em;
+	transition: border 0.2s;
+	background: #f9fafb;
+}
+input:focus {
+	border-color: #2563eb;
+	outline: none;
+	background: #fff;
+}
+input.ng-invalid.ng-touched {
+	border-color: #ef4444;
+}
+button {
+	padding: 0.8em 0;
+	background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+	color: #fff;
+	border: none;
+	border-radius: 0.5em;
+	font-size: 1.1em;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.2s, box-shadow 0.2s;
+	box-shadow: 0 2px 8px 0 rgba(37,99,235,0.07);
+}
+button:disabled {
+	background: #d1d5db;
+	color: #888;
+	cursor: not-allowed;
+}
+
+.result-card {
+	max-width: 420px;
+	margin: 2.5em auto 0 auto;
+	background: #fff;
+	border-radius: 1.2em;
+	box-shadow: 0 4px 24px 0 rgba(0,0,0,0.09);
+	padding: 2em 2.5em 2em 2.5em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.2em;
+}
+.found-title {
+	color: #2563eb;
+	font-size: 1.3em;
+	font-weight: 700;
+	margin-bottom: 0.7em;
+}
+.identity-list {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 1.2em 0;
+	width: 100%;
+}
+.identity-list li {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.4em 0;
+	border-bottom: 1px solid #f1f5f9;
+	font-size: 1.05em;
+}
+.identity-list li:last-child {
+	border-bottom: none;
+}
+.prompt-row {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.7em;
+}
+.prompt-row span {
+	font-size: 1.08em;
+	color: #334155;
+	font-weight: 500;
+}
+.prompt-buttons {
+	display: flex;
+	gap: 1.2em;
+}
+.prompt-buttons button {
+	min-width: 70px;
+	font-size: 1em;
+	padding: 0.5em 1.2em;
+	border-radius: 0.5em;
+	background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+	color: #fff;
+	border: none;
+	font-weight: 600;
+	box-shadow: 0 2px 8px 0 rgba(37,99,235,0.07);
+	transition: background 0.2s;
+}
+.prompt-buttons button:hover {
+	background: linear-gradient(90deg, #1d4ed8 0%, #3b82f6 100%);
+}
+.error {
+	color: #ef4444;
+	margin-top: 1em;
+	font-weight: 500;
+	text-align: center;
+}
+.no-match {
+	font-size: 1.1em;
+	margin-bottom: 0.7em;
+}
+@media (max-width: 600px) {
+	form, .result-card {
+		padding: 1.2em 0.7em;
+		max-width: 98vw;
+	}
+}

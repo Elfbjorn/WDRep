@@ -1,0 +1,39 @@
+
+
+
+<form [formGroup]="ssnForm" (ngSubmit)="submit()" autocomplete="off" novalidate>
+  <label for="ssn">Enter SSN</label>
+  <input id="ssn" formControlName="ssn" maxlength="11" placeholder="###-##-####" (blur)="onBlur()" type="text" autocomplete="off" />
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <button type="submit" [disabled]="loading">Check</button>
+</form>
+
+<div *ngIf="result" class="result-card">
+  <div *ngIf="result.found; else noMatch">
+    <h3 class="found-title">Identity Found</h3>
+    <ul class="identity-list">
+      <li><span>First Name:</span> <strong>{{ result.firstname }}</strong></li>
+      <li><span>Middle Name:</span> <strong>{{ result.middlename }}</strong></li>
+      <li><span>Last Name:</span> <strong>{{ result.lastname }}</strong></li>
+      <li><span>SSN:</span> <strong>{{ maskSsn(result.ssn) }}</strong></li>
+      <li><span>Date of Birth:</span> <strong>{{ result.dob | date:'yyyy-MM-dd' }}</strong></li>
+    </ul>
+    <div class="prompt-row">
+      <span>Would you like to continue?</span>
+      <div class="prompt-buttons">
+        <button (click)="proceed()" type="button">Yes</button>
+        <button (click)="reset()" type="button">No</button>
+      </div>
+    </div>
+  </div>
+  <ng-template #noMatch>
+    <div class="error no-match">No match found</div>
+    <div class="prompt-row">
+      <span>Would you like to continue?</span>
+      <div class="prompt-buttons">
+        <button (click)="proceed()" type="button">Yes</button>
+        <button (click)="reset()" type="button">No</button>
+      </div>
+    </div>
+  </ng-template>
+</div>

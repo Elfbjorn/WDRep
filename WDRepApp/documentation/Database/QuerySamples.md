@@ -13,7 +13,7 @@ To retrieve the proper values from the database, the following query will be use
 
 ```sql
 
-select id, 
+select prefixsuffixid, 
        description
 from   prefixsuffix
 where  recordstatusid = 1
@@ -33,7 +33,7 @@ To retrieve the proper values from the database, the following query will be use
 
 ```sql
 
-select id, 
+select prefixsuffixid, 
        description
 from   prefixsuffix
 where  recordstatusid = 1
@@ -46,7 +46,7 @@ To retrieve the proper values from the database, the following query will be use
 
 ```sql
 
-select id, 
+select geographyid, 
        geographyname
 from   geography
 where  recordstatusid = 1
@@ -64,7 +64,7 @@ To retrieve the proper values from the database, the following query will be use
 
 ```sql
 
-select id, 
+select geographyid, 
        geographyname
 from   geography
 where  recordstatusid = 1
@@ -74,7 +74,7 @@ and    geographytypeid =
 		select geographytypeid
 	       from   geographytypes
 	       where  description = 'State'
-       )
+       ) 
 order  by geographyname;
 ```
 
@@ -85,7 +85,8 @@ To retrieve the proper values from the database, the following query will be use
 
 ```sql
 
-select description
+select sexid, 
+       description
 from   sexes
 where  recordstatusid = 1
 order  by description;
