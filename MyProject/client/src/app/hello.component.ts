@@ -1,3 +1,6 @@
+// This file has been removed for a clean slate.
+
+
 import { Component, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';

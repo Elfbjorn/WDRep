@@ -1,7 +1,0 @@
-<select>
-  <option *ngFor="let type of contactTypes" [value]="type.id">{{ type.name }}</option>
-</select>
-
-// Example Angular service/component
-this.http.get<any[]>('/api/lookup/contacttypes?appliesTo=email')
-  .subscribe(data => this.contactTypes = data);

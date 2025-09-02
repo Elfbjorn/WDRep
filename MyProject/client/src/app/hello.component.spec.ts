@@ -1,3 +1,6 @@
+// This file has been removed for a clean slate.
+
+
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HelloComponent } from './hello.component';

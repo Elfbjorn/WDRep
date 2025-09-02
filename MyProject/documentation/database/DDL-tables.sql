@@ -298,6 +298,45 @@ CREATE TABLE Emails (
 	DeletedIpAddress VARCHAR(45) NULL
 );
 
+DROP TABLE IF EXISTS Phones CASCADE;
+DROP TABLE IF EXISTS Phones CASCADE;
+CREATE TABLE Phones (
+	PhoneId SERIAL PRIMARY KEY,
+	HumanReadableId VARCHAR(20) NULL,
+	RecordStatusId INT NOT NULL,
+	PhoneNumber VARCHAR(320) NOT NULL,
+	CreatedBy INT NOT NULL,
+	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	ModifiedBy INT NULL,
+	ModifiedDate TIMESTAMP NULL,
+	ModifiedIpAddress VARCHAR(45) NULL,
+	DeletedBy INT NULL,
+	DeletedDate TIMESTAMP NULL,
+	DeletedIpAddress VARCHAR(45) NULL
+);
+
+DROP TABLE IF EXISTS CoreIdentityPhones CASCADE;
+CREATE TABLE CoreIdentityPhones (
+	CoreIdentityPhoneId SERIAL PRIMARY KEY,
+	HumanReadableId VARCHAR(20) NULL,
+	RecordStatusId INT NOT NULL,
+	CoreIdentityId INT NOT NULL,
+	PhoneId INT NOT NULL,
+	ContactTypeId INT NOT NULL,
+	ContactSequence INT NOT NULL DEFAULT 1,
+	CreatedBy INT NOT NULL,
+	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	ModifiedBy INT NULL,
+	ModifiedDate TIMESTAMP NULL,
+	ModifiedIpAddress VARCHAR(45) NULL,
+	DeletedBy INT NULL,
+	DeletedDate TIMESTAMP NULL,
+	DeletedIpAddress VARCHAR(45) NULL
+);
+
+
 DROP TABLE IF EXISTS CoreIdentityEmails CASCADE;
 DROP TABLE IF EXISTS CoreIdentityEmails CASCADE;
 CREATE TABLE CoreIdentityEmails (

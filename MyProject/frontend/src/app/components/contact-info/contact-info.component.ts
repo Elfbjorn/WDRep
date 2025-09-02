@@ -1,6 +1,3 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ContactType } from '../../models/contact-type.model';
 
 @Component({
   selector: 'app-contact-info',
