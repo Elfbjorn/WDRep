@@ -1,0 +1,15 @@
+delete from coreidentityadjudications;
+delete from adjudications;
+delete from coreidentityaliases;
+delete from aliases;
+delete from coreidentityemails;
+delete from emails;
+delete from coreidentityinvestigationrequests;
+delete from investigationrequest;
+delete from coreidentityphones;
+delete from phones;
+delete from coreidentitypostaladdresses;
+delete from postaladdresses;
+delete from coreidentitysocialmedia;
+delete from socialmedia;
+delete from coreidentity where coreidentityid > 2;

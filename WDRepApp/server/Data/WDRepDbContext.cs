@@ -27,9 +27,11 @@ namespace WDRepApp.Server.Data
     public DbSet<GeographyType> GeographyTypes { get; set; }
     public DbSet<Email> Emails { get; set; }
     public DbSet<Phone> Phones { get; set; }
-    public DbSet<PostalAddress> PostalAddresses { get; set; }
+    public DbSet<PostalAddress> PostalAddresses { get; set; } // Now uses GeographyId for city
     public DbSet<CoreIdentityEmail> CoreIdentityEmails { get; set; }
     public DbSet<CoreIdentityPhone> CoreIdentityPhones { get; set; }
     public DbSet<CoreIdentityPostalAddress> CoreIdentityPostalAddresses { get; set; }
+    public DbSet<Alias> Aliases { get; set; }
+    public DbSet<CoreIdentityAlias> CoreIdentityAliases { get; set; }
     }
 }

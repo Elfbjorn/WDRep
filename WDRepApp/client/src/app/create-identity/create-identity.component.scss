@@ -1,3 +1,16 @@
+// Info icon for prior aliases
+.info-icon-img {
+	display: inline-block;
+	vertical-align: middle;
+	border-radius: 50%;
+	border: 1px solid #1976d2;
+	background: #f5faff;
+	transition: background 0.2s;
+}
+.info-icon-img:focus, .info-icon-img:hover {
+	background: #e3f2fd;
+	outline: none;
+}
 /* Button styles for both tabs */
 .btn-cancel {
 	background: #d32f2f;

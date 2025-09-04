@@ -8,11 +8,11 @@ namespace WDRepApp.Server.Entities
     {
         [System.ComponentModel.DataAnnotations.Schema.Column("token")]
         public Guid Token { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column("encrypted_ssn")]
-        public byte[]? EncryptedSsn { get; set; }
+    [System.ComponentModel.DataAnnotations.Schema.Column("encrypted_ssn")]
+    public byte[]? EncryptedSsn { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         [System.ComponentModel.DataAnnotations.Schema.Column("expires_at")]
-        public DateTime ExpiresAt { get; set; }
+        public DateTime ExpiresAt { get; set; } = DateTime.UtcNow.AddMinutes(10);
     }
 }

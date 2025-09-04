@@ -154,13 +154,13 @@ CREATE TABLE InvestigationRequest (
 	AssignmentDate TIMESTAMP NOT NULL,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS RelationshipTypeLookup CASCADE;
@@ -179,13 +179,13 @@ CREATE TABLE EmergencyContacts (
 	ContactSequence INT NOT NULL,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS Phones CASCADE;
@@ -250,13 +250,13 @@ CREATE TABLE RelationshipTypes (
 	Extension VARCHAR(10) NULL,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS CoreIdentityPhones CASCADE;
@@ -271,13 +271,13 @@ CREATE TABLE CoreIdentityPhones (
 	ContactSequence INT NOT NULL DEFAULT 1,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS Emails CASCADE;
@@ -289,13 +289,13 @@ CREATE TABLE Emails (
 	EmailAddress VARCHAR(320) NOT NULL,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS Phones CASCADE;
@@ -307,13 +307,13 @@ CREATE TABLE Phones (
 	PhoneNumber VARCHAR(320) NOT NULL,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS CoreIdentityPhones CASCADE;
@@ -327,13 +327,13 @@ CREATE TABLE CoreIdentityPhones (
 	ContactSequence INT NOT NULL DEFAULT 1,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 
@@ -349,13 +349,13 @@ CREATE TABLE CoreIdentityEmails (
 	ContactSequence INT NOT NULL DEFAULT 1,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS PostalAddresses CASCADE;
@@ -372,13 +372,13 @@ CREATE TABLE PostalAddresses (
 	CountryId INT NOT NULL,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS CoreIdentityPostalAddresses CASCADE;
@@ -393,13 +393,13 @@ CREATE TABLE CoreIdentityPostalAddresses (
 	ContactSequence INT NOT NULL DEFAULT 1,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS SocialMedia CASCADE;
@@ -414,13 +414,13 @@ CREATE TABLE SocialMedia (
 	IsPrimary BOOLEAN NOT NULL DEFAULT FALSE,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS CoreIdentitySocialMedia CASCADE;
@@ -435,13 +435,13 @@ CREATE TABLE CoreIdentitySocialMedia (
 	ContactSequence INT NOT NULL DEFAULT 1,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS PointsOfContactPhones CASCADE;
@@ -456,13 +456,13 @@ CREATE TABLE PointsOfContactPhones (
 	ContactSequence INT NOT NULL DEFAULT 1,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS PointsOfContactEmails CASCADE;
@@ -477,13 +477,13 @@ CREATE TABLE PointsOfContactEmails (
 	ContactSequence INT NOT NULL DEFAULT 1,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 
@@ -506,13 +506,13 @@ CREATE TABLE Contracts (
 	Description TEXT,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS Organizations CASCADE;
@@ -533,13 +533,13 @@ CREATE TABLE Organizations (
 	Website VARCHAR(255),
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS Assignments CASCADE;
@@ -560,13 +560,13 @@ CREATE TABLE Assignments (
 	Description TEXT,
 	CreatedBy INT NOT NULL,
 	CreatedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CreatedIpAddress VARCHAR(45) NOT NULL DEFAULT '::0',
+	createdip VARCHAR(45) NOT NULL DEFAULT '::0',
 	ModifiedBy INT NULL,
 	ModifiedDate TIMESTAMP NULL,
-	ModifiedIpAddress VARCHAR(45) NULL,
+	modifiedip VARCHAR(45) NULL,
 	DeletedBy INT NULL,
 	DeletedDate TIMESTAMP NULL,
-	DeletedIpAddress VARCHAR(45) NULL
+	deletedip VARCHAR(45) NULL
 );
 
 DROP TABLE IF EXISTS tableprefixes CASCADE;

@@ -181,13 +181,13 @@ CREATE TABLE public.assignments (
     description text,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -396,13 +396,13 @@ CREATE TABLE public.contracts (
     description text,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -566,13 +566,13 @@ CREATE TABLE public.coreidentityemails (
     contactsequence integer DEFAULT 1 NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -661,13 +661,13 @@ CREATE TABLE public.coreidentityphones (
     contactsequence integer DEFAULT 1 NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -709,13 +709,13 @@ CREATE TABLE public.coreidentitypostaladdresses (
     contactsequence integer DEFAULT 1 NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -757,13 +757,13 @@ CREATE TABLE public.coreidentitysocialmedia (
     contactsequence integer DEFAULT 1 NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -877,13 +877,13 @@ CREATE TABLE public.emails (
     emailaddress character varying(320) NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -925,13 +925,13 @@ CREATE TABLE public.emergencycontacts (
     contactsequence integer NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -1091,13 +1091,13 @@ CREATE TABLE public.investigationrequest (
     assignmentdate timestamp without time zone NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -1145,13 +1145,13 @@ CREATE TABLE public.organizations (
     website character varying(255),
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -1482,13 +1482,13 @@ CREATE TABLE public.pointsofcontactemails (
     contactsequence integer DEFAULT 1 NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -1530,13 +1530,13 @@ CREATE TABLE public.pointsofcontactphones (
     contactsequence integer DEFAULT 1 NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -1580,13 +1580,13 @@ CREATE TABLE public.postaladdresses (
     countryid integer NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -1830,13 +1830,13 @@ CREATE TABLE public.socialmedia (
     isprimary boolean DEFAULT false NOT NULL,
     createdby integer NOT NULL,
     createddate timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    createdipaddress character varying(45) DEFAULT '::0'::character varying NOT NULL,
+    createdip character varying(45) DEFAULT '::0'::character varying NOT NULL,
     modifiedby integer,
     modifieddate timestamp without time zone,
-    modifiedipaddress character varying(45),
+    modifiedip character varying(45),
     deletedby integer,
     deleteddate timestamp without time zone,
-    deletedipaddress character varying(45)
+    deletedip character varying(45)
 );
 
 
@@ -2183,7 +2183,7 @@ COPY public.aliases (aliasid, humanreadableid, recordstatusid, coreidentityid, a
 -- Data for Name: assignments; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.assignments (assignmentid, humanreadableid, recordstatusid, workerid, organizationid, contractid, assignmenttypeid, assignmentstatusid, startdate, enddate, hoursperweek, hourlyrate, description, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.assignments (assignmentid, humanreadableid, recordstatusid, workerid, organizationid, contractid, assignmenttypeid, assignmentstatusid, startdate, enddate, hoursperweek, hourlyrate, description, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2227,7 +2227,7 @@ COPY public.contacttypes (contacttypeid, humanreadableid, contacttypename, appli
 -- Data for Name: contracts; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.contracts (contractid, humanreadableid, recordstatusid, contractnumber, contractname, contracttypeid, organizationid, vendorid, startdate, enddate, contractvalue, description, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.contracts (contractid, humanreadableid, recordstatusid, contractnumber, contractname, contracttypeid, organizationid, vendorid, startdate, enddate, contractvalue, description, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2260,7 +2260,7 @@ COPY public.coreidentityadjudications (coreidentityadjudicationid, adjudicationi
 -- Data for Name: coreidentityemails; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.coreidentityemails (coreidentityemailid, humanreadableid, recordstatusid, coreidentityid, emailid, contacttypeid, contactsequence, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.coreidentityemails (coreidentityemailid, humanreadableid, recordstatusid, coreidentityid, emailid, contacttypeid, contactsequence, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2276,7 +2276,7 @@ COPY public.coreidentityinvestigationrequests (coreidentityinvestigationrequesti
 -- Data for Name: coreidentityphones; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.coreidentityphones (coreidentityphoneid, humanreadableid, recordstatusid, coreidentityid, phoneid, contacttypeid, contactsequence, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.coreidentityphones (coreidentityphoneid, humanreadableid, recordstatusid, coreidentityid, phoneid, contacttypeid, contactsequence, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2284,7 +2284,7 @@ COPY public.coreidentityphones (coreidentityphoneid, humanreadableid, recordstat
 -- Data for Name: coreidentitypostaladdresses; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.coreidentitypostaladdresses (coreidentitypostaladdressid, humanreadableid, recordstatusid, coreidentityid, postaladdressid, contacttypeid, contactsequence, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.coreidentitypostaladdresses (coreidentitypostaladdressid, humanreadableid, recordstatusid, coreidentityid, postaladdressid, contacttypeid, contactsequence, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2292,7 +2292,7 @@ COPY public.coreidentitypostaladdresses (coreidentitypostaladdressid, humanreada
 -- Data for Name: coreidentitysocialmedia; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.coreidentitysocialmedia (coreidentitysocialmediaid, humanreadableid, recordstatusid, coreidentityid, socialmediaid, contacttypeid, contactsequence, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.coreidentitysocialmedia (coreidentitysocialmediaid, humanreadableid, recordstatusid, coreidentityid, socialmediaid, contacttypeid, contactsequence, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2316,7 +2316,7 @@ COPY public.countrycodes (countrycodeid, humanreadableid, countrycode, countryid
 -- Data for Name: emails; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.emails (emailid, humanreadableid, recordstatusid, emailaddress, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.emails (emailid, humanreadableid, recordstatusid, emailaddress, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2324,7 +2324,7 @@ COPY public.emails (emailid, humanreadableid, recordstatusid, emailaddress, crea
 -- Data for Name: emergencycontacts; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.emergencycontacts (emergencycontactid, humanreadableid, recordstatusid, coreidentityid, pointofcontactid, relationshiptypeid, contactsequence, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.emergencycontacts (emergencycontactid, humanreadableid, recordstatusid, coreidentityid, pointofcontactid, relationshiptypeid, contactsequence, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2372,7 +2372,7 @@ COPY public.geographytypes (geographytypeid, humanreadableid, description, recor
 -- Data for Name: investigationrequest; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.investigationrequest (investigationrequestid, humanreadableid, recordstatusid, specialistassignedid, serviceproviderid, investigationtypeid, sentdate, completiondate, receiveddate, coreidentityid, assignmentdate, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.investigationrequest (investigationrequestid, humanreadableid, recordstatusid, specialistassignedid, serviceproviderid, investigationtypeid, sentdate, completiondate, receiveddate, coreidentityid, assignmentdate, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2380,7 +2380,7 @@ COPY public.investigationrequest (investigationrequestid, humanreadableid, recor
 -- Data for Name: organizations; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.organizations (organizationid, humanreadableid, recordstatusid, organizationname, organizationtypeid, address1, address2, city, state, zipcode, phone, email, website, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.organizations (organizationid, humanreadableid, recordstatusid, organizationname, organizationtypeid, address1, address2, city, state, zipcode, phone, email, website, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2444,7 +2444,7 @@ COPY public.pointsofcontact (pointofcontactid, humanreadableid, prefixid, firstn
 -- Data for Name: pointsofcontactemails; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.pointsofcontactemails (pointsofcontactemailid, humanreadableid, recordstatusid, pointofcontactid, emailid, contacttypeid, contactsequence, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.pointsofcontactemails (pointsofcontactemailid, humanreadableid, recordstatusid, pointofcontactid, emailid, contacttypeid, contactsequence, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2452,7 +2452,7 @@ COPY public.pointsofcontactemails (pointsofcontactemailid, humanreadableid, reco
 -- Data for Name: pointsofcontactphones; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.pointsofcontactphones (pointsofcontactphoneid, humanreadableid, recordstatusid, pointofcontactid, phoneid, contacttypeid, contactsequence, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.pointsofcontactphones (pointsofcontactphoneid, humanreadableid, recordstatusid, pointofcontactid, phoneid, contacttypeid, contactsequence, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2460,7 +2460,7 @@ COPY public.pointsofcontactphones (pointsofcontactphoneid, humanreadableid, reco
 -- Data for Name: postaladdresses; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.postaladdresses (postaladdressid, humanreadableid, recordstatusid, address1, address2, city, state, zipcode, countryid, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.postaladdresses (postaladdressid, humanreadableid, recordstatusid, address1, address2, city, state, zipcode, countryid, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 
@@ -2545,7 +2545,7 @@ COPY public.sexes (sexid, humanreadableid, description, recordstatusid, createdb
 -- Data for Name: socialmedia; Type: TABLE DATA; Schema: public; Owner: wdrep
 --
 
-COPY public.socialmedia (socialmediaid, humanreadableid, recordstatusid, platform, handle, url, isprimary, createdby, createddate, createdipaddress, modifiedby, modifieddate, modifiedipaddress, deletedby, deleteddate, deletedipaddress) FROM stdin;
+COPY public.socialmedia (socialmediaid, humanreadableid, recordstatusid, platform, handle, url, isprimary, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip) FROM stdin;
 \.
 
 

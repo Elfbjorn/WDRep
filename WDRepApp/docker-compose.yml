@@ -16,8 +16,9 @@ services:
     container_name: wdrep_backend
     restart: always
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=wdrep;Username=wdrep;Password=wdrep
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=wdrep;Username=wdrep;Password=wdrep
+      - EAGLE_SEK=test_secret
     ports:
       - "5000:8080"
     depends_on:

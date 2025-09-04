@@ -9,5 +9,6 @@ export const routes: Routes = [
 	{ path: 'hello', component: Hello },
 	{ path: 'check-ssn', loadComponent: () => import('./check-ssn/check-ssn.component').then(m => m.CheckSsnComponent) },
 	{ path: 'create-identity', loadComponent: () => import('./create-identity/create-identity.component').then(m => m.CreateIdentityComponent) },
+	{ path: 'security-information', loadComponent: () => import('./security-information/security-information.component').then(m => m.SecurityInformationComponent) },
 	{ path: '**', redirectTo: 'check-ssn' }
 ];

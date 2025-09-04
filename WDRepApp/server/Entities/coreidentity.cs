@@ -7,6 +7,8 @@ namespace WDRepApp.Server.Entities
     [Table("coreidentity")]
     public class CoreIdentity
     {
+        [Column("preferredname")]
+        public string? PreferredName { get; set; }
         [Key]
         [Column("coreidentityid")]
         public int CoreIdentityId { get; set; }
@@ -20,8 +22,8 @@ namespace WDRepApp.Server.Entities
         [Column("lastname")]
         public string? LastName { get; set; }
 
-        [Column("ssn")]
-        public string? Ssn { get; set; }
+    [Column("ssn")]
+    public byte[]? Ssn { get; set; }
 
         [Column("dob")]
         public DateTime? Dob { get; set; }
@@ -40,5 +42,17 @@ namespace WDRepApp.Server.Entities
 
         [Column("recordstatusid")]
         public int RecordStatusId { get; set; }
+
+    [Column("createdby")]
+    public int CreatedBy { get; set; } = 2;
+
+    [Column("createdip")]
+    public string CreatedIp { get; set; } = "::0";
+
+    [Column("modifiedby")]
+    public int ModifiedBy { get; set; } = 2;
+
+    [Column("modifiedip")]
+    public string? ModifiedIp { get; set; } = "::0";
     }
 }

@@ -92,8 +92,11 @@ export class CheckSsnComponent implements OnInit {
 
 
   proceed() {
-    // Store the SSN token if present (for new identities)
+    // Store the SSN token if present (for new identities or found identities)
     if (this.result && this.result.token) {
+      sessionStorage.setItem('ssn_token', this.result.token);
+    } else if (this.result && this.result.found && this.result.token) {
+      // If found and token present, set it
       sessionStorage.setItem('ssn_token', this.result.token);
     } else {
       sessionStorage.removeItem('ssn_token');

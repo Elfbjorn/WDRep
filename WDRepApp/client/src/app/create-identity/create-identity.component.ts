@@ -14,6 +14,18 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./create-identity.component.scss']
 })
 export class CreateIdentityComponent implements OnInit {
+  priorAliasesTooltip(): string {
+    // Exclude the current field value (trimmed, case-insensitive) from the tooltip
+    const current = (this.previousLastName || '').trim().toLowerCase();
+    const filtered = this.priorAliases.filter(a => a.trim().toLowerCase() !== current);
+    if (filtered.length === 0) return '';
+    return 'Prior last names (most recent first):\n' + filtered.join('\n');
+  }
+  priorAliases: string[] = [];
+  get hasPriorAliases(): boolean {
+    return this.priorAliases.length > 0;
+  }
+  protected readonly maskSsn = maskSsn;
   onContactCountryChange() {
     const selected = this.contactCountryList.find((c: any) => c.geographyId === this.contactSelectedCountry);
     if (selected && (selected.geographyName === 'United States' || selected.geographyName === 'Canada')) {
@@ -53,14 +65,18 @@ export class CreateIdentityComponent implements OnInit {
   contactStates: { geographyId: number, geographyName: string }[] = [];
   contactSelectedState: number | null = null;
   contactStateText: string = '';
-  contactCity: string = '';
+  // Removed city dropdown logic; city is always a text field
+  contactCityText: string = '';
   contactZip: string = '';
-  noMiddleName = false;
-  // Helper for contact country/state/city
+  contactGeographyId: number | null = null;
   get isContactUsOrCanada(): boolean {
     const selected = this.contactCountryList.find((c: any) => c.geographyId === this.contactSelectedCountry);
     return !!selected && (selected.geographyName === 'United States' || selected.geographyName === 'Canada');
   }
+
+  // Removed onContactStateChange; city is always a text field
+  noMiddleName = false;
+  // Helper for contact country/state/city
   activeTab: 'basic' | 'contact' = 'basic';
   sexes: { sexid: number, description: string }[] = [];
   selectedSex: number | null = null;
@@ -149,7 +165,7 @@ export class CreateIdentityComponent implements OnInit {
 
     // 3. Use token to get SSN
     this.loading = true;
-  this.http.post<any>('/api/identity/ssn-from-token', { token: token }, { headers: { 'Content-Type': 'application/json' } })
+    this.http.post<any>('/api/identity/ssn-from-token', { token: token }, { headers: { 'Content-Type': 'application/json' } })
       .subscribe({
         next: (res: any) => {
           this.ssn = maskSsn(res.ssn);
@@ -159,16 +175,90 @@ export class CreateIdentityComponent implements OnInit {
               next: (result: any) => {
                 this.loading = false;
                 if (result && result.found) {
-                  // Populate all fields from coreidentity
+                  // Populate all fields from coreidentity and related tables
                   this.firstName = result.firstname || '';
                   this.middleName = result.middlename || '';
                   this.lastName = result.lastname || '';
-                  this.dob = result.dob || '';
+                  this.dob = result.dob ? result.dob.substring(0, 10) : '';
                   this.selectedPrefix = result.prefixid || null;
                   this.selectedSuffix = result.suffixid || null;
                   this.selectedSex = result.sexid || null;
-                  this.selectedCountry = result.placeofbirthid || null;
-                  // ...add more fields as needed...
+                  this.selectedCountry = result.countryofbirthid || null;
+                  this.stateText = result.stateofbirth || '';
+                  this.city = result.cityofbirth || '';
+                  this.primaryEmail = result.email || '';
+                  this.selectedEmailType = result.emailtypeid || null;
+                  this.primaryPhone = result.phone || '';
+                  this.selectedPhoneType = result.phonetypeid || null;
+                  this.preferredName = result.preferredname || '';
+                  this.previousLastName = result.previouslastname || '';
+                  this.priorAliases = Array.isArray(result.prioraliases) ? result.prioraliases : [];
+                  if (result.address) {
+                    // Robust logging and assignment for all address fields
+                    const addr = result.address;
+                    console.log('Received address from backend:', addr);
+                    this.addressLine1 = addr.address1 ?? '';
+                    this.addressLine2 = addr.address2 ?? '';
+                    this.contactZip = addr.zipcode ?? '';
+                    this.contactGeographyId = addr.geographyId ?? null;
+                    // City
+                    this.contactCityText = addr.contactCity ?? addr.cityName ?? addr.city ?? '';
+                    // State
+                    this.contactStateText = addr.contactState ?? addr.stateName ?? addr.state ?? '';
+                    // Country
+                    // Assign country and state IDs robustly
+                    const countryId = addr.contactCountryId ?? addr.countryId ?? null;
+                    const stateId = addr.contactStateId ?? addr.stateId ?? null;
+                    // Assign country
+                    if (this.contactCountryList.length > 0) {
+                      this.contactSelectedCountry = countryId;
+                      this.onContactCountryChange();
+                      setTimeout(() => {
+                        this.contactSelectedState = stateId;
+                      }, 200);
+                    } else {
+                      setTimeout(() => {
+                        this.contactSelectedCountry = countryId;
+                        this.onContactCountryChange();
+                        setTimeout(() => {
+                          this.contactSelectedState = stateId;
+                        }, 200);
+                      }, 200);
+                    }
+                    // Address type
+                    this.selectedAddressType = addr.addressTypeId ?? null;
+                    // Log all assignments
+                    console.log('Assigned contactCityText:', this.contactCityText);
+                    console.log('Assigned contactStateText:', this.contactStateText);
+                    console.log('Assigned contactSelectedCountry:', this.contactSelectedCountry);
+                    console.log('Assigned contactSelectedState:', this.contactSelectedState);
+                    console.log('Assigned selectedAddressType:', this.selectedAddressType);
+          this.selectedAddressType = result.address.addressTypeId || null;
+                    // Pre-fill country/state/city dropdowns for contact address
+                    if (this.contactGeographyId) {
+                      // Find city, then state, then country by traversing up
+                      this.http.get<any>(`/api/identity/geography-parents/${this.contactGeographyId}`).subscribe((geo) => {
+                        if (geo) {
+                          this.contactSelectedCountry = geo.countryId || null;
+                          this.onContactCountryChange();
+                          setTimeout(() => {
+                            this.contactSelectedState = geo.stateId || null;
+                            // No city dropdown logic; city is always a text field
+                          }, 200);
+                        }
+                      });
+                    }
+                  }
+                  // Ensure state dropdown is loaded and selected
+                  if (this.selectedCountry && (this.countries.find((c: any) => c.geographyId === this.selectedCountry)?.geographyName === 'United States' || this.countries.find((c: any) => c.geographyId === this.selectedCountry)?.geographyName === 'Canada')) {
+                    this.onCountryChange();
+                    // Wait for states to load, then set selectedState
+                    setTimeout(() => {
+                      this.selectedState = result.stateofbirthid || null;
+                    }, 300);
+                  } else {
+                    this.selectedState = null;
+                  }
                 } else {
                   // Not found: only populate SSN
                   this.firstName = '';
@@ -179,6 +269,16 @@ export class CreateIdentityComponent implements OnInit {
                   this.selectedSuffix = null;
                   this.selectedSex = null;
                   this.selectedCountry = null;
+                  this.selectedState = null;
+                  this.stateText = '';
+                  this.city = '';
+                  this.primaryEmail = '';
+                  this.primaryPhone = '';
+                  this.addressLine1 = '';
+                  this.addressLine2 = '';
+                  this.contactZip = '';
+                  this.previousLastName = '';
+                  this.priorAliases = [];
                 }
               },
               error: () => {
@@ -235,5 +335,57 @@ export class CreateIdentityComponent implements OnInit {
 
   onNext() {
     this.activeTab = 'contact';
+  }
+
+  onSubmit() {
+    this.loading = true;
+    this.error = null;
+    // Prepare payload matching new CreateIdentityRequest DTO (city-level geography for postal address)
+  // Set contactGeographyId from city/state text fields (handled by backend)
+  let contactGeographyId: number | null = null;
+    const payload = {
+      firstName: this.firstName,
+      middleName: this.middleName,
+      lastName: this.lastName,
+      previousLastName: this.previousLastName,
+      preferredName: this.preferredName,
+      dob: this.dob,
+      ssn: this.ssn.replace(/[^0-9]/g, ''),
+      prefixId: this.selectedPrefix,
+      suffixId: this.selectedSuffix,
+      sexId: this.selectedSex,
+      countryOfBirthId: this.selectedCountry,
+      stateOfBirthId: this.isUsOrCanada ? this.selectedState : null,
+      stateOfBirthText: !this.isUsOrCanada ? this.stateText : null,
+      cityOfBirth: this.city,
+      emailTypeId: this.selectedEmailType,
+      primaryEmail: this.primaryEmail,
+      phoneTypeId: this.selectedPhoneType,
+      primaryPhone: this.primaryPhone,
+      addressTypeId: this.selectedAddressType,
+      addressLine1: this.addressLine1,
+      addressLine2: this.addressLine2,
+      contactZip: this.contactZip,
+      // New modular address fields
+      contactCountryId: this.contactSelectedCountry,
+      contactStateId: this.isContactUsOrCanada ? this.contactSelectedState : null,
+      contactStateText: !this.isContactUsOrCanada ? this.contactStateText : null,
+      contactCityText: this.contactCityText
+    };
+    this.http.post<any>('/api/identity/create', payload, { headers: { 'Content-Type': 'application/json' } })
+      .subscribe({
+        next: (res: any) => {
+          this.loading = false;
+          if (res && res.success) {
+            this.router.navigate(['/security-information']);
+          } else {
+            this.error = res && res.error ? res.error : 'Failed to create identity.';
+          }
+        },
+        error: (err: any) => {
+          this.loading = false;
+          this.error = err?.error?.error || 'Failed to create identity.';
+        }
+      });
   }
 }
