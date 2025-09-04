@@ -116,10 +116,14 @@ export class CreateIdentityComponent implements OnInit {
     this.loading = true;
     this.http.get<any>('/api/identity/dropdowns').subscribe(
       (data) => {
-        this.contactCountryList = (data?.countries || []).map((c: any) => ({
+        const allCountries = (data?.countries || []).map((c: any) => ({
           geographyId: c.geographyId ?? c.geographyid,
           geographyName: c.geographyName ?? c.geographyname
         }));
+        // United States always first after 'Select a country'
+  const us = allCountries.find((c: any) => c.geographyName === 'United States');
+        this.countries = us ? [us, ...allCountries] : [...allCountries];
+        this.contactCountryList = this.countries;
         this.prefixes = (data?.prefixes || []).map((p: any) => ({
           prefixsuffixid: p.prefixsuffixid ?? p.prefixSuffixId,
           description: p.description
@@ -132,22 +136,24 @@ export class CreateIdentityComponent implements OnInit {
           sexid: s.sexid ?? s.sexId,
           description: s.description
         }));
-        this.countries = (data?.countries || []).map((c: any) => ({
-          geographyId: c.geographyId ?? c.geographyid,
-          geographyName: c.geographyName ?? c.geographyname
-        }));
-        this.emailTypes = (data?.emailTypes || []).map((t: any) => ({
-          contactTypeId: t.contactTypeId,
-          contactTypeName: t.contactTypeName
-        }));
-        this.phoneTypes = (data?.phoneTypes || []).map((t: any) => ({
-          contactTypeId: t.contactTypeId,
-          contactTypeName: t.contactTypeName
-        }));
-        this.addressTypes = (data?.addressTypes || []).map((t: any) => ({
-          contactTypeId: t.contactTypeId,
-          contactTypeName: t.contactTypeName
-        }));
+        this.emailTypes = Array.isArray(data?.emailTypes) && data.emailTypes.length > 0
+          ? data.emailTypes.map((t: any) => ({
+              contactTypeId: t.contactTypeId ?? t.contacttypeid,
+              contactTypeName: t.contactTypeName ?? t.contacttypename
+            }))
+          : [];
+        this.phoneTypes = Array.isArray(data?.phoneTypes) && data.phoneTypes.length > 0
+          ? data.phoneTypes.map((t: any) => ({
+              contactTypeId: t.contactTypeId ?? t.contacttypeid,
+              contactTypeName: t.contactTypeName ?? t.contacttypename
+            }))
+          : [];
+        this.addressTypes = Array.isArray(data?.addressTypes) && data.addressTypes.length > 0
+          ? data.addressTypes.map((t: any) => ({
+              contactTypeId: t.contactTypeId ?? t.contacttypeid,
+              contactTypeName: t.contactTypeName ?? t.contacttypename
+            }))
+          : [];
         this.loading = false;
       },
       () => {

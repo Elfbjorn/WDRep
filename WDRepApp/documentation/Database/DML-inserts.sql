@@ -80,7 +80,7 @@ VALUES
 
 DELETE FROM coreidentity;
 INSERT INTO coreidentity (firstname, lastname, ssn, dob, placeofbirthid, sexid, recordstatusid, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip)
-VALUES ('System', 'User', '000112222', '2025-08-30', 1, 3, 1, 0, current_timestamp, '::0', 0, current_timestamp, '::0', NULL, NULL, NULL);
+VALUES ('System', 'User', pgp_sym_encrypt('000112222'::text, '3ncrYp+ed'::text), '2025-08-30', 1, 3, 1, 0, current_timestamp, '::0', 0, current_timestamp, '::0', NULL, NULL, NULL);
 
 INSERT INTO geographytypes (description, recordstatusid, createdby, createddate, createdip, modifiedby, modifieddate, modifiedip, deletedby, deleteddate, deletedip)
 VALUES

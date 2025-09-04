@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
-psql -U wdrep -d wdrep_db -f /docker-entrypoint-initdb.d/DDL-tables.sql
-psql -U wdrep -d wdrep_db -f /docker-entrypoint-initdb.d/DDL-fk.sql
-psql -U wdrep -d wdrep_db -f /docker-entrypoint-initdb.d/DML-inserts.sql
+psql -p  55432 -h localhost -U wdrep -d wdrep -f ./DDL-tables.sql
+psql -p  55432 -h localhost -U wdrep -d wdrep -f ./DDL-fk.sql
+psql -p  55432 -h localhost -U wdrep -d wdrep -f ./DDL-functions.sql
+psql -p  55432 -h localhost -U wdrep -d wdrep -f ./DML-inserts.sql

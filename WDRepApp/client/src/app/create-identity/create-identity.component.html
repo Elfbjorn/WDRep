@@ -74,19 +74,18 @@
         <option *ngFor="let country of countries" [ngValue]="country.geographyId">{{ country.geographyName }}</option>
       </select>
 
-      <ng-container *ngIf="selectedCountry">
+      <div>
+        <label for="state" class="required-label">State of Birth <span class="required-asterisk">*</span></label>
         <ng-container *ngIf="isUsOrCanada; else stateTextField">
-          <label for="state" class="required-label">State of Birth <span class="required-asterisk">*</span></label>
           <select id="state" name="state" [(ngModel)]="selectedState" required [ngClass]="'required-field'">
             <option [ngValue]="null">Select a state</option>
             <option *ngFor="let state of states" [ngValue]="state.geographyId">{{ state.geographyName }}</option>
           </select>
         </ng-container>
         <ng-template #stateTextField>
-          <label for="state" class="required-label">State of Birth <span class="required-asterisk">*</span></label>
           <input id="state" name="state" [(ngModel)]="stateText" required [ngClass]="'required-field'" />
         </ng-template>
-      </ng-container>
+      </div>
 
   <label for="city" class="required-label">City of Birth <span class="required-asterisk">*</span></label>
   <input id="city" name="city" [(ngModel)]="city" required [ngClass]="'required-field'" />
@@ -136,17 +135,18 @@
         <option [ngValue]="null">Select a country</option>
         <option *ngFor="let country of contactCountryList" [ngValue]="country.geographyId">{{ country.geographyName }}</option>
       </select>
-      <ng-container *ngIf="isContactUsOrCanada">
-  <label for="contactState" class="required-label">State<span class="required-asterisk">*</span></label>
-  <select id="contactState" name="contactState" [(ngModel)]="contactSelectedState" required>
-          <option [ngValue]="null">Select a state</option>
-          <option *ngFor="let state of contactStates" [ngValue]="state.geographyId">{{ state.geographyName }}</option>
-        </select>
-      </ng-container>
-      <ng-container *ngIf="!isContactUsOrCanada">
+      <div>
         <label for="contactState" class="required-label">State<span class="required-asterisk">*</span></label>
-        <input id="contactState" name="contactState" [(ngModel)]="contactStateText" required />
-      </ng-container>
+        <ng-container *ngIf="isContactUsOrCanada; else contactStateTextField">
+          <select id="contactState" name="contactState" [(ngModel)]="contactSelectedState" required>
+            <option [ngValue]="null">Select a state</option>
+            <option *ngFor="let state of contactStates" [ngValue]="state.geographyId">{{ state.geographyName }}</option>
+          </select>
+        </ng-container>
+        <ng-template #contactStateTextField>
+          <input id="contactState" name="contactState" [(ngModel)]="contactStateText" required />
+        </ng-template>
+      </div>
       <label for="contactCity" class="required-label">City<span class="required-asterisk">*</span></label>
       <input id="contactCity" name="contactCity" [(ngModel)]="contactCityText" required />
       <label for="contactZip" class="required-label">ZIP Code<span class="required-asterisk">*</span></label>

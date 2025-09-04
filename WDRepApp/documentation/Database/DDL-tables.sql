@@ -1,3 +1,11 @@
+DROP TABLE IF EXISTS ssn_tokens CASCADE;
+CREATE TABLE ssn_tokens (
+    token UUID PRIMARY KEY,
+    encrypted_ssn BYTEA,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+    expires_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
+);
+
 DROP TABLE IF EXISTS OrganizationsHistory CASCADE;
 DROP TABLE IF EXISTS OrganizationsHistory CASCADE;
 CREATE TABLE OrganizationsHistory (

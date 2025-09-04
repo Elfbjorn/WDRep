@@ -11,6 +11,26 @@ services:
       - "55432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    command: ["postgres", "-c", "shared_preload_libraries=pgcrypto"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wdrep"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Utility container for psql and admin tasks (optional)
+  psql:
+    image: postgres:16
+    container_name: wdrep_psql
+    entrypoint: ["sleep", "infinity"]
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_USER: wdrep
+      POSTGRES_PASSWORD: wdrep
+      POSTGRES_DB: wdrep
+    networks:
+      - default
   backend:
     build: ./server
     container_name: wdrep_backend
@@ -18,7 +38,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=wdrep;Username=wdrep;Password=wdrep
-      - EAGLE_SEK=test_secret
+      - EAGLE_SEK=3ncrYp+ed
     ports:
       - "5000:8080"
     depends_on:
