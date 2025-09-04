@@ -2,10 +2,10 @@
 
 
 <form [formGroup]="ssnForm" (ngSubmit)="submit()" autocomplete="off" novalidate>
-  <label for="ssn">Enter SSN</label>
-  <input id="ssn" formControlName="ssn" maxlength="11" placeholder="###-##-####" (blur)="onBlur()" type="text" autocomplete="off" />
+  <label for="ssn" class="required-label">Enter SSN <span class="required-asterisk">*</span></label>
+  <input id="ssn" formControlName="ssn" maxlength="11" placeholder="###-##-####" (blur)="onBlur()" type="text" autocomplete="off" required class="required-field" />
   <div *ngIf="error" class="error">{{ error }}</div>
-  <button type="submit" [disabled]="loading">Check</button>
+  <button type="submit" [disabled]="loading" class="btn-next">Check</button>
 </form>
 
 <div *ngIf="result" class="result-card">
@@ -21,8 +21,8 @@
     <div class="prompt-row">
       <span>Would you like to continue?</span>
       <div class="prompt-buttons">
-        <button (click)="proceed()" type="button">Yes</button>
-        <button (click)="reset()" type="button">No</button>
+  <button (click)="reset()" type="button" class="btn-cancel">No</button>
+  <button (click)="proceed()" type="button" class="btn-next">Yes</button>
       </div>
     </div>
   </div>
@@ -31,8 +31,8 @@
     <div class="prompt-row">
       <span>Would you like to continue?</span>
       <div class="prompt-buttons">
-        <button (click)="proceed()" type="button">Yes</button>
-        <button (click)="reset()" type="button">No</button>
+  <button (click)="reset()" type="button" class="btn-cancel">No</button>
+  <button (click)="proceed()" type="button" class="btn-next">Yes</button>
       </div>
     </div>
   </ng-template>

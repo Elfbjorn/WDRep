@@ -3,7 +3,7 @@
 FROM node:20 AS build
 WORKDIR /app
 COPY . .
-RUN npm install && npm run build -- --configuration=production
+RUN npm install --legacy-peer-deps && npm run build -- --configuration=production
 
 # Use Nginx to serve the built app
 FROM nginx:alpine
