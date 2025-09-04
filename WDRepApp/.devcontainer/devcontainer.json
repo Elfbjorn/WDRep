@@ -1,0 +1,17 @@
+{
+  "name": "WDRep Dev Container",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "frontend",
+  "workspaceFolder": "/workspaces/WDRep/WDRepApp",
+  "forwardPorts": [4200, 5000, 55432],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "ms-azuretools.vscode-docker",
+    "ms-dotnettools.csharp",
+    "ms-vscode-remote.remote-containers"
+  ]
+}
