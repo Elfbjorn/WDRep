@@ -6,6 +6,7 @@ namespace WDRepApp.Server.DTOs
 {
     public class CreateIdentityRequest
     {
+    public Guid SsnToken { get; set; }
     public int? EmailTypeId { get; set; }
         public string? FirstName { get; set; }
         public string? MiddleName { get; set; }

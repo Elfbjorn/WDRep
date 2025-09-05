@@ -1,5 +1,6 @@
 
 using WDRepApp.Server.Data;
+using WDRepApp.Server.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 // Add PostgreSQL DbContext
 builder.Services.AddDbContext<WDRepDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register services
+builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 var app = builder.Build();
 

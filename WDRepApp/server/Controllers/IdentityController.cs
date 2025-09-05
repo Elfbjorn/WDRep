@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WDRepApp.Server.Data;
 using WDRepApp.Server.Entities;
 using WDRepApp.Server.DTOs;
+using WDRepApp.Server.Services;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System;
@@ -16,11 +17,13 @@ namespace WDRepApp.Server.Controllers
         private readonly WDRepDbContext _db;
         private readonly string _sek;
         private readonly ILogger<IdentityController> _logger;
+        private readonly IIdentityService _identityService;
 
-        public IdentityController(WDRepDbContext db, ILogger<IdentityController> logger)
+        public IdentityController(WDRepDbContext db, ILogger<IdentityController> logger, IIdentityService identityService)
         {
             _db = db;
             _logger = logger;
+            _identityService = identityService;
             var sek = Environment.GetEnvironmentVariable("EAGLE_SEK");
             if (string.IsNullOrWhiteSpace(sek))
                 throw new InvalidOperationException("EAGLE_SEK environment variable must be set for encryption.");
@@ -259,6 +262,24 @@ namespace WDRepApp.Server.Controllers
                 return Ok(new { found = false, token });
             }
             return Ok(new { found = true, token });
+        }
+
+        [HttpPost("create-or-update")]
+        public async Task<IActionResult> CreateOrUpdateIdentity([FromBody] CreateIdentityRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Request cannot be null");
+            }
+
+            var response = await _identityService.CreateOrUpdateIdentityAsync(request, request.SsnToken);
+            
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
         }
 
         public class SsnTokenRequest
