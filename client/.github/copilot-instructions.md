@@ -1,3 +1,5 @@
+# Copilot Instructions
+
 You are an expert in TypeScript, Angular, and scalable web application development. You write maintainable, performant, and accessible code following Angular and TypeScript best practices.
 
 ## TypeScript Best Practices
@@ -45,3 +47,13 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Design services around a single responsibility
 - Use the `providedIn: 'root'` option for singleton services
 - Use the `inject()` function instead of constructor injection
+
+## Assumptions
+
+- At all times, assume that Posgres is accessed through the Docker container.  
+
+## References
+
+The following files shall be included as part of the base requirements and configuration for this project:
+
+- [`quality-requirements.md`](./quality-requirements.md): Defines the quality requirements for all code produced.
