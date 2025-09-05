@@ -1,0 +1,42 @@
+{
+  "menu": [
+    {
+      "section": "Hire Personnel",
+      "items": [
+        {
+          "text": "Create Person",
+          "immediateLink": "check-ssn",
+          "nextLink": "create-identity",
+          "cancelLink": "homepage",
+          "previousLink": ""
+        },
+        {
+          "text": "Organizational Alignment",
+          "immediateLink": "check-ssn",
+          "nextLink": "org-align",
+          "cancelLink": "homepage",
+          "previousLink": ""
+        },
+        {
+          "text": "Security Profile",
+          "immediateLink": "check-ssn",
+          "nextLink": "security-profile",
+          "cancelLink": "homepage",
+          "previousLink": ""
+        }
+      ]
+    },
+    {
+      "section": "Configuration",
+      "items": [
+        {
+          "text": "Options",
+          "immediateLink": "options",
+          "nextLink": "",
+          "cancelLink": "homepage",
+          "previousLink": ""
+        }
+      ]
+    }
+  ]
+}
