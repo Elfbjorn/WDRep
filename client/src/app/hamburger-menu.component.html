@@ -1,9 +1,21 @@
+
+
 <div class="hamburger-icon" (click)="toggleMenu()">
   <div></div>
   <div></div>
   <div></div>
 </div>
 <div class="slide-menu" [class.open]="menuOpen">
-  <button (click)="onHirePersonnel()">Hire Personnel</button>
-  <button disabled>Options</button>
+  <div *ngIf="loading">Loading menu...</div>
+  <div *ngIf="error" style="color: #d00;">Error: {{ error }}</div>
+  <ng-container *ngIf="!loading && !error">
+    <ng-container *ngFor="let header of headers">
+      <div class="menu-header">{{ header.menuitemname }}</div>
+      <ng-container *ngFor="let item of getChildren(header.menuitemid)">
+        <button class="menu-item" (click)="onMenuNavigate(item.immediatelink)" [disabled]="!item.immediatelink">
+          {{ item.menuitemname }}
+        </button>
+      </ng-container>
+    </ng-container>
+  </ng-container>
 </div>

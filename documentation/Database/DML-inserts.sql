@@ -114,3 +114,9 @@ INSERT INTO contacttypes (
 ('Work',   TRUE, TRUE, TRUE, FALSE, FALSE, 1, 1, '::0'),
 ('School', TRUE, TRUE, TRUE, FALSE, FALSE, 1, 1, '::0'),
 ('Mobile', FALSE, TRUE, FALSE, FALSE, FALSE, 1, 1, '::0');
+
+INSERT INTO defaultitems (defaultitempage, defaultitemtab, cancellink, cancellinktext, previouslink, previouslinktext, nextlink, nextlinktext, recordstatusid)
+VALUES
+('check-ssn', '', 'check-ssn', 'No', '', '', 'create-identity.Basic Information', 'Yes', 1),
+('create-identity', 'Basic Information', 'check-ssn', 'Cancel', '', '', 'create-identity.Contact Information', 'Next', 1),
+('create-identity', 'Contact Information', 'check-ssn', 'Cancel', 'create-identity.Basic Information', 'Back', 'create-alignment.Organization', 'Next', 1)'

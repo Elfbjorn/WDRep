@@ -1,6 +1,7 @@
 
 
 
+
 <form [formGroup]="ssnForm" (ngSubmit)="submit()" autocomplete="off" novalidate>
   <label for="ssn" class="required-label">Enter SSN <span class="required-asterisk">*</span></label>
   <input id="ssn" formControlName="ssn" maxlength="11" placeholder="###-##-####" (blur)="onBlur()" type="text" autocomplete="off" required class="required-field" />
@@ -21,8 +22,9 @@
     <div class="prompt-row">
       <span>Would you like to continue?</span>
       <div class="prompt-buttons">
-  <button (click)="reset()" type="button" class="btn-cancel">No</button>
-  <button (click)="proceed()" type="button" class="btn-next">Yes</button>
+  <button *ngIf="previousLink" (click)="goPrevious()" type="button" class="btn-previous">{{ previousLinkText }}</button>
+  <button *ngIf="cancelLink" (click)="cancel()" type="button" class="btn-cancel">{{ cancelLinkText }}</button>
+  <button *ngIf="nextLink" (click)="proceed()" type="button" class="btn-next">{{ nextLinkText }}</button>
       </div>
     </div>
   </div>
@@ -31,8 +33,9 @@
     <div class="prompt-row">
       <span>Would you like to continue?</span>
       <div class="prompt-buttons">
-  <button (click)="reset()" type="button" class="btn-cancel">No</button>
-  <button (click)="proceed()" type="button" class="btn-next">Yes</button>
+        <button *ngIf="previousLink" (click)="goPrevious()" type="button" class="btn-previous">{{ previousLinkText }}</button>
+        <button *ngIf="cancelLink" (click)="cancel()" type="button" class="btn-cancel">{{ cancelLinkText }}</button>
+        <button *ngIf="nextLink" (click)="proceed()" type="button" class="btn-next">{{ nextLinkText }}</button>
       </div>
     </div>
   </ng-template>

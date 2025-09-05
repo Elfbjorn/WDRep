@@ -25,4 +25,12 @@ export class App {
     localStorage.removeItem('ssn_token');
     this.router.navigate(['/check-ssn']);
   }
+
+  onMenuNavigate(link: string) {
+    if (link) {
+      // Remove leading slash if present, then navigate
+      const route = link.startsWith('/') ? link : `/${link}`;
+      this.router.navigate([route]);
+    }
+  }
 }

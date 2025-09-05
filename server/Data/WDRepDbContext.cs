@@ -8,17 +8,7 @@ namespace WDRepApp.Server.Data
     public WDRepDbContext(DbContextOptions<WDRepDbContext> options) : base(options) { }
 
     public DbSet<WDRepApp.Server.Entities.SsnToken> SsnTokens { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().ToTable("ssn_tokens");
-            modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().HasKey(t => t.Token);
-            modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().Property(t => t.Token).HasColumnName("token");
-            modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().Property(t => t.EncryptedSsn).HasColumnName("encrypted_ssn");
-            modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().Property(t => t.CreatedAt).HasColumnName("created_at");
-            modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().Property(t => t.ExpiresAt).HasColumnName("expires_at");
-        }
-        // FIX: Use PascalCase for all DbSet properties and Entity types
+    // FIX: Use PascalCase for all DbSet properties and Entity types
     public DbSet<CoreIdentity> CoreIdentity { get; set; }
     public DbSet<PrefixSuffix> PrefixSuffix { get; set; }
     public DbSet<Geography> Geography { get; set; }
@@ -33,5 +23,20 @@ namespace WDRepApp.Server.Data
     public DbSet<CoreIdentityPostalAddress> CoreIdentityPostalAddresses { get; set; }
     public DbSet<Alias> Aliases { get; set; }
     public DbSet<CoreIdentityAlias> CoreIdentityAliases { get; set; }
+    public DbSet<WDRepApp.Server.Entities.MenuItem> MenuItems { get; set; }
+    public DbSet<WDRepApp.Server.Entities.MenuItemType> MenuItemTypes { get; set; }
+    public DbSet<WDRepApp.Entities.DefaultItem> DefaultItems { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().ToTable("ssn_tokens");
+        modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().HasKey(t => t.Token);
+        modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().Property(t => t.Token).HasColumnName("token");
+        modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().Property(t => t.EncryptedSsn).HasColumnName("encrypted_ssn");
+        modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().Property(t => t.CreatedAt).HasColumnName("created_at");
+        modelBuilder.Entity<WDRepApp.Server.Entities.SsnToken>().Property(t => t.ExpiresAt).HasColumnName("expires_at");
+        modelBuilder.Entity<WDRepApp.Entities.DefaultItem>().ToTable("defaultitems");
+    }
     }
 }

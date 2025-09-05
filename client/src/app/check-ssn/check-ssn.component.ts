@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { maskSsn } from '../utils/masking.utils';
+import { DefaultItemService, DefaultItem } from '../utils/default-item.service';
 @Component({
   selector: 'app-check-ssn',
   standalone: true,
@@ -17,14 +18,66 @@ export class CheckSsnComponent implements OnInit {
   result: any = null;
   loading = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
+  // Navigation links from menu
+  nextLink: string = '/create-identity';
+  cancelLink: string = '/home';
+  previousLink: string | null = null;
+  nextLinkText: string = 'Next';
+  cancelLinkText: string = 'Cancel';
+  previousLinkText: string = 'Previous';
+
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router,
+    private defaultItemService: DefaultItemService
+  ) {}
 
   ngOnInit() {
     this.ssnForm = this.fb.group({
       ssn: ['', [Validators.required, Validators.pattern(/^\d{3}-?\d{2}-?\d{4}$/)]]
     });
+    this.loadMenuLinks();
   }
 
+  loadMenuLinks() {
+    // Try menu API first
+    this.http.get<any[]>('/api/menu').subscribe({
+      next: (menu) => {
+        const item = menu.find(m => m.immediatelink === 'check-ssn');
+        if (item) {
+          this.nextLink = item.nextlink && item.nextlinktext ? (item.nextlink.startsWith('/') ? item.nextlink : `/${item.nextlink}`) : '';
+          this.cancelLink = item.cancellink && item.cancellinktext ? (item.cancellink.startsWith('/') ? item.cancellink : `/${item.cancellink}`) : '';
+          this.previousLink = item.previouslink && item.previouslinktext ? (item.previouslink.startsWith('/') ? item.previouslink : `/${item.previouslink}`) : null;
+          this.nextLinkText = item.nextlinktext || 'Next';
+          this.cancelLinkText = item.cancellinktext || 'Cancel';
+          this.previousLinkText = item.previouslinktext || 'Previous';
+        } else {
+          this.loadDefaultLinks();
+        }
+      },
+      error: () => {
+        this.loadDefaultLinks();
+      }
+    });
+  }
+
+  loadDefaultLinks() {
+    // Use defaultitems API for fallback config
+    this.defaultItemService.getDefaultItem('check-ssn', '').subscribe({
+      next: (item: DefaultItem) => {
+        this.nextLink = item.nextLink && item.nextLinkText ? (item.nextLink.startsWith('/') ? item.nextLink : `/${item.nextLink}`) : '';
+        this.cancelLink = item.cancelLink && item.cancelLinkText ? (item.cancelLink.startsWith('/') ? item.cancelLink : `/${item.cancelLink}`) : '';
+        this.previousLink = item.previousLink && item.previousLinkText ? (item.previousLink.startsWith('/') ? item.previousLink : `/${item.previousLink}`) : null;
+        this.nextLinkText = item.nextLinkText || 'Next';
+        this.cancelLinkText = item.cancelLinkText || 'Cancel';
+        this.previousLinkText = item.previousLinkText || 'Previous';
+      },
+      error: () => {
+        // fallback to hardcoded defaults if needed
+      }
+    });
+  }
 
   submit() {
     // 1. Reset state
@@ -90,18 +143,41 @@ export class CheckSsnComponent implements OnInit {
     }
   }
 
-
   proceed() {
-    // Store the SSN token if present (for new identities or found identities)
+    // Store the SSN token if present, else clear
     if (this.result && this.result.token) {
-      sessionStorage.setItem('ssn_token', this.result.token);
-    } else if (this.result && this.result.found && this.result.token) {
-      // If found and token present, set it
       sessionStorage.setItem('ssn_token', this.result.token);
     } else {
       sessionStorage.removeItem('ssn_token');
     }
-    this.router.navigate(['/create-identity']);
+    if (this.nextLink) {
+      this.router.navigate([this.nextLink]);
+    }
+  }
+
+  cancel() {
+    if (this.cancelLink) {
+      // Always clear token on cancel for safety
+      sessionStorage.removeItem('ssn_token');
+      // Normalize both paths: remove trailing slashes, ignore query params
+      const normalize = (url: string) => url.replace(/\?.*$/, '').replace(/\/+$/, '');
+      const currentUrl = normalize(this.router.url);
+      const targetUrl = normalize(this.cancelLink);
+      console.log('[Cancel] currentUrl:', currentUrl, 'targetUrl:', targetUrl);
+      if (currentUrl === targetUrl) {
+        console.log('[Cancel] Forcing full reload to', this.cancelLink);
+        window.location.href = this.cancelLink;
+      } else {
+        console.log('[Cancel] Using router.navigate to', this.cancelLink);
+        this.router.navigate([this.cancelLink]);
+      }
+    }
+  }
+
+  goPrevious() {
+    if (this.previousLink) {
+      this.router.navigate([this.previousLink]);
+    }
   }
 
   protected readonly maskSsn = maskSsn;

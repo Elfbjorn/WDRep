@@ -1099,3 +1099,43 @@ CREATE TABLE CallsAndOrders (
 	DeletedIP VARCHAR(45) NULL
 	-- All FKs deferred
 );
+
+DROP TABLE IF EXISTS menuitems;
+CREATE TABLE menuitems
+(
+	menuitemid  SERIAL PRIMARY KEY,
+	menuitemname VARCHAR(40) NOT NULL,
+	immediatelink VARCHAR(100) NULL,
+	nextlink VARCHAR(100) NULL,
+	cancellink VARCHAR(100) NULL,
+	menuitemtypeid INT NOT NULL,
+	parentid INT NULL,
+	sequenceid INT NOT NULL,
+	recordstatusid INT NOT NULL
+);
+	
+	
+DROP TABLE IF EXISTS menuitemtypes;
+CREATE TABLE menuitemtypes
+(
+	menuitemtypeid  SERIAL PRIMARY KEY,
+	menuitemtypename VARCHAR(20) NOT NULL,
+	recordstatusid INT NOT NULL
+);
+
+DROP TABLE IF EXISTS defaultitems;
+CREATE TABLE defaultitems
+(
+	defaultitemid SERIAL PRIMARY KEY,
+	defaultitempage VARCHAR(100) NOT NULL,
+	defaultitemtab VARCHAR(100) NULL,
+	cancellink VARCHAR(100) NULL,
+	cancellinktext VARCHAR(100) NULL,
+	previouslink VARCHAR(100) NULL,
+	previouslinktext VARCHAR(100) NULL,
+	nextlink VARCHAR(100) NULL,
+	nextlinktext VARCHAR(100) NULL,
+	recordstatusid INT NOT NULL
+);
+
+

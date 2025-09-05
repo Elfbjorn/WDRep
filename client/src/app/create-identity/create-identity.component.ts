@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DefaultItemService, DefaultItem } from '../utils/default-item.service';
 
 @Component({
   selector: 'app-create-identity',
@@ -78,6 +79,13 @@ export class CreateIdentityComponent implements OnInit {
   noMiddleName = false;
   // Helper for contact country/state/city
   activeTab: 'basic' | 'contact' = 'basic';
+  // Navigation links/buttons
+  nextLink: string = '';
+  nextLinkText: string = 'Next';
+  previousLink: string = '';
+  previousLinkText: string = 'Back';
+  cancelLink: string = '';
+  cancelLinkText: string = 'Cancel';
   sexes: { sexid: number, description: string }[] = [];
   selectedSex: number | null = null;
   city: string = '';
@@ -112,17 +120,27 @@ export class CreateIdentityComponent implements OnInit {
   selectedSuffix: number | null = null;
   loading = false;
   error: string | null = null;
-    firstName: string = '';
-    middleName: string = '';
-    lastName: string = '';
-    previousLastName: string = '';
-    preferredName: string = '';
+  firstName: string = '';
+  middleName: string = '';
+  lastName: string = '';
+  previousLastName: string = '';
+  preferredName: string = '';
 
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private defaultItemService: DefaultItemService
+  ) {}
 
 
   ngOnInit() {
+    this.loadMenuLinks();
+    this.loadDropdownsAndPrefill();
+  }
+
+  loadDropdownsAndPrefill() {
     // 1. Load dropdowns as before
     this.loading = true;
     this.http.get<any>('/api/identity/dropdowns').subscribe(
@@ -132,7 +150,7 @@ export class CreateIdentityComponent implements OnInit {
           geographyName: c.geographyName ?? c.geographyname
         }));
         // United States always first after 'Select a country'
-  const us = allCountries.find((c: any) => c.geographyName === 'United States');
+        const us = allCountries.find((c: any) => c.geographyName === 'United States');
         this.countries = us ? [us, ...allCountries] : [...allCountries];
         this.contactCountryList = this.countries;
         this.prefixes = (data?.prefixes || []).map((p: any) => ({
@@ -250,7 +268,7 @@ export class CreateIdentityComponent implements OnInit {
                     console.log('Assigned contactSelectedCountry:', this.contactSelectedCountry);
                     console.log('Assigned contactSelectedState:', this.contactSelectedState);
                     console.log('Assigned selectedAddressType:', this.selectedAddressType);
-          this.selectedAddressType = result.address.addressTypeId || null;
+                    this.selectedAddressType = result.address.addressTypeId || null;
                     // Pre-fill country/state/city dropdowns for contact address
                     if (this.contactGeographyId) {
                       // Find city, then state, then country by traversing up
@@ -311,6 +329,7 @@ export class CreateIdentityComponent implements OnInit {
       });
   }
 
+
   onCountryChange() {
     const selected = this.countries.find((c: any) => c.geographyId === this.selectedCountry);
     if (selected && (selected.geographyName === 'United States' || selected.geographyName === 'Canada')) {
@@ -341,14 +360,86 @@ export class CreateIdentityComponent implements OnInit {
     }
   }
 
-  onCancel() {
 
-  localStorage.removeItem('ssn_token');
-  this.router.navigate(['/check-ssn']);
+  onCancel() {
+    localStorage.removeItem('ssn_token');
+    this.handleNavLink(this.cancelLink);
+  }
+  // Navigation and menu/default logic
+  loadMenuLinks() {
+    // Try menu API first for context
+    this.http.get<any[]>('/api/menu').subscribe({
+      next: (menu) => {
+        // Determine current page/tab context
+        const page = 'create-identity';
+        const tab = this.activeTab === 'contact' ? 'Contact Information' : 'Basic Information';
+        // Try to find a menu item matching page/tab
+        let item = menu.find(m => m.immediatelink === page && (m.tab === tab || !m.tab));
+        if (!item) {
+          // Fallback: just match page
+          item = menu.find(m => m.immediatelink === page);
+        }
+        if (item) {
+          this.nextLink = item.nextlink || '';
+          this.nextLinkText = item.nextlinktext || 'Next';
+          this.previousLink = item.previouslink || '';
+          this.previousLinkText = item.previouslinktext || 'Back';
+          this.cancelLink = item.cancellink || '';
+          this.cancelLinkText = item.cancellinktext || 'Cancel';
+        } else {
+          this.loadDefaultLinks();
+        }
+      },
+      error: () => {
+        this.loadDefaultLinks();
+      }
+    });
+  }
+
+  loadDefaultLinks() {
+    // Use defaultitems API for fallback config
+    const page = 'create-identity';
+    const tab = this.activeTab === 'contact' ? 'Contact Information' : 'Basic Information';
+    this.defaultItemService.getDefaultItem(page, tab).subscribe({
+      next: (item: DefaultItem) => {
+        this.nextLink = item.nextLink || '';
+        this.nextLinkText = item.nextLinkText || 'Next';
+        this.previousLink = item.previousLink || '';
+        this.previousLinkText = item.previousLinkText || 'Back';
+        this.cancelLink = item.cancelLink || '';
+        this.cancelLinkText = item.cancelLinkText || 'Cancel';
+      },
+      error: () => {
+        // fallback to hardcoded defaults if needed
+      }
+    });
   }
 
   onNext() {
-    this.activeTab = 'contact';
+    this.handleNavLink(this.nextLink);
+  }
+
+  onPrevious() {
+    this.handleNavLink(this.previousLink);
+  }
+
+  handleNavLink(link: string) {
+    if (!link) return;
+    // Parse link for tab context: e.g., create-identity.Basic Information
+    const [page, tab] = link.split('.', 2);
+    if (page === 'create-identity') {
+      if (tab) {
+        // Switch tab in-place
+        this.activeTab = tab.trim().toLowerCase().includes('contact') ? 'contact' : 'basic';
+        this.loadMenuLinks();
+      } else {
+        // No tab: reload or navigate
+        this.router.navigate(['/create-identity']);
+      }
+    } else {
+      // Navigate to other page
+      this.router.navigate([`/${page}`]);
+    }
   }
 
   onSubmit() {

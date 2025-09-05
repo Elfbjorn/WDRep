@@ -168,3 +168,16 @@ BEGIN
         EXECUTE format('ALTER TABLE %I ENABLE TRIGGER ALL;', r.tablename);
     END LOOP;
 END $$;
+
+ALTER TABLE menuitemtypes DROP CONSTRAINT IF EXISTS fk_menuitemtypes_recordstatusid;
+ALTER TABLE menuitems DROP CONSTRAINT IF EXISTS fk_menuitems_recordstatusid;
+ALTER TABLE menuitems DROP CONSTRAINT IF EXISTS fk_menuitems_menuitemtypeid;
+ALTER TABLE menuitems DROP CONSTRAINT IF EXISTS fk_menuitems_parentid;
+
+ALTER TABLE menuitemtypes ADD CONSTRAINT fk_menuitemtypes_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
+ALTER TABLE menuitems ADD CONSTRAINT fk_menuitems_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
+ALTER TABLE menuitems ADD CONSTRAINT fk_menuitems_menuitemtypeid FOREIGN KEY (menuitemtypeid) REFERENCES menuitemtypes(menuitemtypeid);
+ALTER TABLE menuitems ADD CONSTRAINT fk_menuitems_parentid FOREIGN KEY (parentid) REFERENCES menuitems(menuitemid);
+
+ALTER TABLE defaultitems DROP CONSTRAINT IF EXISTS fk_defaultitems_recordstatusid;
+ALTER TABLE defaultitems ADD CONSTRAINT fk_defaultitems_recordstatusid FOREIGN KEY (recordstatusid) REFERENCES recordstatuses(recordstatusid);
