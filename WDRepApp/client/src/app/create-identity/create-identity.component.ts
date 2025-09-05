@@ -89,6 +89,17 @@ export class CreateIdentityComponent implements OnInit {
   selectedState: number | null = null;
   stateText: string = '';
   countries: { geographyId: number, geographyName: string }[] = [];
+  get countriesWithUsFirst(): { geographyId: number, geographyName: string }[] {
+    if (!this.countries || this.countries.length === 0) return [];
+    const us = this.countries.find(c => c.geographyName === 'United States');
+    // Remove only the first occurrence of US for the top, but keep it in the sorted list
+    const rest = [...this.countries];
+    const usIndex = rest.findIndex(c => c.geographyName === 'United States');
+    if (usIndex !== -1) rest.splice(usIndex, 1);
+    rest.sort((a, b) => a.geographyName.localeCompare(b.geographyName));
+    // US will appear at the top and also in the sorted list
+    return us ? [us, ...rest] : rest;
+  }
   selectedCountry: number | null = null;
   dob: string = '';
   ssn: string = '';
@@ -322,6 +333,7 @@ export class CreateIdentityComponent implements OnInit {
   }
 
   onNoMiddleNameChange() {
+
     if (this.noMiddleName) {
       this.middleName = 'NMN';
     } else if (this.middleName === 'NMN') {
@@ -330,13 +342,9 @@ export class CreateIdentityComponent implements OnInit {
   }
 
   onCancel() {
-    // Implement cancel logic as needed (e.g., clear form, navigate away, etc.)
-    // For now, just navigate to the home page
-    this.router.navigate(['/']);
-  }
 
-  onBack() {
-    this.router.navigate(['/check-ssn']);
+  localStorage.removeItem('ssn_token');
+  this.router.navigate(['/check-ssn']);
   }
 
   onNext() {

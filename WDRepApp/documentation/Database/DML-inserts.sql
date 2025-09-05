@@ -104,3 +104,13 @@ VALUES
 ('Quebec', 2, 1, 0, current_timestamp, '::0', 0, current_timestamp, '::0', NULL, NULL, NULL),
 ('Saskatchewan', 2, 1, 0, current_timestamp, '::0', 0, current_timestamp, '::0', NULL, NULL, NULL),
 ('British Columbia', 2, 1, 0, current_timestamp, '::0', 0, current_timestamp, '::0', NULL, NULL, NULL);
+
+
+INSERT INTO contacttypes (
+  contacttypename, appliestoemail, appliestophone, appliestopostaladdress, appliestosocialmedia, appliestowebsite,
+  recordstatusid, createdby, createdip
+) VALUES
+('Home',   TRUE, TRUE, TRUE, FALSE, FALSE, 1, 1, '::0'),
+('Work',   TRUE, TRUE, TRUE, FALSE, FALSE, 1, 1, '::0'),
+('School', TRUE, TRUE, TRUE, FALSE, FALSE, 1, 1, '::0'),
+('Mobile', FALSE, TRUE, FALSE, FALSE, FALSE, 1, 1, '::0');

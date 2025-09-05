@@ -1,0 +1,49 @@
+.hamburger-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 16px;
+}
+.hamburger-icon div {
+  height: 4px;
+  background: #fff;
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+// Height of the toolbar (header) is 64px by default for mat-toolbar
+.slide-menu {
+  position: fixed;
+  top: 74px;
+  right: -260px; // 220px width + 10px + 30px for further off-screen hiding
+  width: 220px;
+  height: calc(100vh - 74px);
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px 16px 16px 16px;
+  transition: right 0.3s cubic-bezier(.4,0,.2,1), top 0.3s cubic-bezier(.4,0,.2,1);
+  z-index: 1200;
+}
+.slide-menu.open {
+  right: 30px;
+}
+.slide-menu button {
+  background: none;
+  border: none;
+  color: #1565c0;
+  font-size: 1.1rem;
+  font-family: sans-serif;
+  margin-bottom: 16px;
+  cursor: pointer;
+  text-align: left;
+}
+.slide-menu button:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}

@@ -1,4 +1,11 @@
 
+.main-content {
+	transition: margin-right 0.3s cubic-bezier(.4,0,.2,1);
+}
+.main-content.compressed {
+	margin-right: 220px;
+}
+
 .eagle-toolbar {
 	background: linear-gradient(90deg, #0d47a1 0%, #1565c0 100%);
 	color: #fff;

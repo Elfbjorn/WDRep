@@ -73,23 +73,25 @@ namespace WDRepApp.Server.Controllers
                 .Select(s => new { sexid = s.SexId, description = s.Description })
                 .ToListAsync();
 
-            // Email types
+
+
+            // Email types (AppliesToEmail)
             var emailTypes = await _db.ContactTypes
-                .Where(ct => ct.RecordStatusId == 1 && ct.ContactTypeName.ToLower().Contains("email"))
+                .Where(ct => ct.RecordStatusId == 1 && ct.AppliesToEmail)
                 .OrderBy(ct => ct.ContactTypeName)
                 .Select(ct => new { contactTypeId = ct.ContactTypeId, contactTypeName = ct.ContactTypeName })
                 .ToListAsync();
 
-            // Phone types
+            // Phone types (AppliesToPhone)
             var phoneTypes = await _db.ContactTypes
-                .Where(ct => ct.RecordStatusId == 1 && ct.ContactTypeName.ToLower().Contains("phone"))
+                .Where(ct => ct.RecordStatusId == 1 && ct.AppliesToPhone)
                 .OrderBy(ct => ct.ContactTypeName)
                 .Select(ct => new { contactTypeId = ct.ContactTypeId, contactTypeName = ct.ContactTypeName })
                 .ToListAsync();
 
-            // Address types
+            // Address types (AppliesToPostalAddress)
             var addressTypes = await _db.ContactTypes
-                .Where(ct => ct.RecordStatusId == 1 && ct.ContactTypeName.ToLower().Contains("address"))
+                .Where(ct => ct.RecordStatusId == 1 && ct.AppliesToPostalAddress)
                 .OrderBy(ct => ct.ContactTypeName)
                 .Select(ct => new { contactTypeId = ct.ContactTypeId, contactTypeName = ct.ContactTypeName })
                 .ToListAsync();
