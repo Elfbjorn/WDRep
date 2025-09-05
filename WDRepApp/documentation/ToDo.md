@@ -5,8 +5,8 @@
 - [ ] Home address isn't populating
 - [X] Favicon isn't showing
 - [ ] Multiple writes into coreidentity (not upsert)
-- [ ] Display of states is incorrect on create-identity
-- [ ] Contact types not populating
+- [X] Display of states is incorrect on create-identity
+- [X] Contact types not populating
 
 ---
 
