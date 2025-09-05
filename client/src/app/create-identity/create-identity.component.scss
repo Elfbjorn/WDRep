@@ -1,3 +1,16 @@
+/*
+================================================================================
+	UNIVERSAL FORM FIELD & DROPDOWN CSS LOCKDOWN START
+	-----------------------------------------------------------------------------
+	This file is locked. No changes may be made without explicit authorization
+	from the project owner. To authorize changes, you must provide the password
+	as defined in the "Code Lockdown Password" section of .github/quality-requirements.md.
+	If the password is not provided exactly as written, changes are not permitted.
+	All components must inherit from these definitions for form fields and dropdowns.
+	Effective immediately.
+================================================================================
+*/
+
 .contact-card .required-label {
 	display: flex;
 	flex-direction: row;
@@ -9,9 +22,13 @@
 }
 
 // Make all selects and inputs (including #state) the same width and style
-.contact-card select,
-.contact-card input,
-select.country-dropdown {
+
+
+
+
+
+/* UNIVERSAL DROPDOWN STANDARD: All select elements get this style (from #contactState model) */
+select {
 	width: 100%;
 	box-sizing: border-box;
 	height: 2.5em;
@@ -22,18 +39,32 @@ select.country-dropdown {
 	font-size: 1.1em;
 	color: #222;
 	transition: border 0.2s, box-shadow 0.2s;
-	/* Restore default appearance for dropdown handle */
 	background-image: url('data:image/svg+xml;utf8,<svg fill="%23444" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
 	background-repeat: no-repeat;
 	background-position: right 0.75em center;
 	background-size: 1.2em;
-	appearance: revert;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
 }
 
-// Only selects get the dropdown arrow
-.contact-card input {
-	background-image: none;
+
+
+input[type="text"], input[type="email"], input[type="number"], input[type="date"], input[type="password"], input:not([type]) {
+	background-image: none !important;
+	appearance: textfield;
+	-webkit-appearance: textfield;
+	-moz-appearance: textfield;
 }
+
+input[type="checkbox"], input[type="radio"] {
+	appearance: auto;
+	-webkit-appearance: auto;
+	-moz-appearance: auto;
+}
+
+
+/* End: UNIVERSAL DROPDOWN STANDARD */
 
 // Info icon for prior aliases
 .info-icon-img {
@@ -116,11 +147,7 @@ select.country-dropdown {
 
 
 
-select.country-dropdown:focus, .contact-card select:focus, .contact-card input:focus {
-	border-color: #1976d2;
-	outline: none;
-	box-shadow: 0 0 0 2px #e3f2fd;
-}
+
 
 .button-row {
 	max-width: 560px;
@@ -203,7 +230,26 @@ select.country-dropdown:focus, .contact-card select:focus, .contact-card input:f
 	margin-left: 2px;
 }
 
+
+/* Only add red bar for all required fields, but do NOT override background for selects */
 .required-field {
+	border-left: 4px solid #e53935;
+}
+
+/* For required selects, ensure SVG handle and background are always present */
+select.required-field {
+	border-left: 4px solid #e53935;
+	background: #f9f9f9;
+	background-image: url('data:image/svg+xml;utf8,<svg fill="%23444" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+	background-repeat: no-repeat;
+	background-position: right 0.75em center;
+	background-size: 1.2em;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+input.required-field {
 	border-left: 4px solid #e53935;
 	background: transparent;
 }
@@ -262,7 +308,7 @@ label {
 .required-label {
 	flex-direction: row;
 }
-select, input {
+input {
 	padding: 0.7em 1em;
 	border: 1.5px solid #d1d5db;
 	border-radius: 0.5em;
@@ -270,13 +316,9 @@ select, input {
 	transition: border 0.2s;
 	background: #f9fafb;
 }
-select:focus, input:focus {
-	border-color: #2563eb;
-	outline: none;
-	background: #fff;
-}
 select.ng-invalid.ng-touched, input.ng-invalid.ng-touched {
 	border-color: #ef4444;
+	/* Do not override background-image or appearance for select */
 }
 .error {
 	color: #ef4444;
@@ -290,3 +332,8 @@ select.ng-invalid.ng-touched, input.ng-invalid.ng-touched {
 		max-width: 98vw;
 	}
 }
+/*
+================================================================================
+	UNIVERSAL FORM FIELD & DROPDOWN CSS LOCKDOWN END
+================================================================================
+*/

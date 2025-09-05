@@ -44,7 +44,7 @@ VALUES
 ('Congo (Congo-Brazzaville)', 1, 1, 1, '::0', NULL),
 ('Congo (Congo-Kinshasa)', 1, 1, 1, '::0', NULL),
 ('Costa Rica', 1, 1, 1, '::0', NULL),
-('Côte d’Ivoire', 1, 1, 1, '::0', NULL),
+('Côte d''Ivoire', 1, 1, 1, '::0', NULL),
 ('Croatia', 1, 1, 1, '::0', NULL),
 ('Cuba', 1, 1, 1, '::0', NULL),
 ('Cyprus', 1, 1, 1, '::0', NULL),

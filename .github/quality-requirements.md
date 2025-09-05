@@ -26,14 +26,15 @@ aligned, code doesn't reference uninitialized or undefined variables, etc.).
 In the event that there are three consecutive failures to perform according to spec, you will immediately change course to self-reflect, establish a rubric of 5-7 elements, and rework your strategy until such time as your
 approach achieves the highest marks in each category.  You are not to share the rubric, but you are expected to execute on it.  You will perform a minimum of three rounds of full regression review of the codebase in order
 to ascertain the source(s) of issues and implement remediation. Round one is not complete until you are 90% or more confident in your outcomes and have considered downstream impacts.  Round two and three repeat the process.
-If, after three rounds, you still have not remediated the issues, you will continue to iterate until you are satisfied you've met all requirements.
+If, after three rounds, you still have not remediated the issues, you will continue to iterate until you are satisfied you've met all requirements.  In this mode, you will share all thinking verbosely.
 
 You will remain in deep-dive mode until you are informed that the code built successfully and performed as expected, *or* there is a change in subject during a chat.
 
 ## Code Readability Requirements
 
-All code must, at all times, be properly formatted, including but not limited for curly braces, brackets, parentheses, and whitespace.  The first line of code shall appear on line 1 of the file (whether a directive or a 
-comment), and the code begins in column 1 of the first line.  Stray tabs or improperly indented/outdented code is unacceptable.
+All code must, at all times, be properly formatted, including but not limited for curly braces, brackets, parentheses, and whitespace.  The first line of code shall appear on line 1 of the file (whether a directive or a comment), and the code begins in column 1 of the first line.  Stray tabs or improperly indented/outdented code is unacceptable.
+
+Indentation is accomplished through the use of tabs, not spaces, with each tab stop being the equivalent of four space characters.
 
 Examples include:
 
@@ -119,3 +120,8 @@ tr {
 }
 
 ```
+
+## Code Lockdown Password
+
+The password to authorize changes to locked down code is `c0p1|_0t$V*`
+
